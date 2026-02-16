@@ -33,13 +33,13 @@ const Shop = () => {
                     >
                         <div style={{
                             height: '250px',
-                            background: 'rgba(255,255,255,0.05)',
+                            background: 'linear-gradient(to bottom, #fff0f5, #fff)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             overflow: 'hidden'
                         }}>
-                            <img src={product.image} alt={product.name} style={{ width: '80%', opacity: 0.8 }} />
+                            <img src={product.image} alt={product.name} style={{ width: '80%', opacity: 1, filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }} />
                         </div>
 
                         <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>

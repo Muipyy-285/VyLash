@@ -32,7 +32,7 @@ const Product = () => {
         <div className="container" style={{ paddingTop: '120px', paddingBottom: '50px' }}>
             <button
                 onClick={() => navigate('/shop')}
-                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', marginBottom: '2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                style={{ background: 'none', border: 'none', color: 'var(--color-black)', marginBottom: '2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 500 }}
             >
                 ← Back to Shop
             </button>
@@ -40,7 +40,7 @@ const Product = () => {
             <div className="glass-panel" style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1fr', gap: '3rem', alignItems: 'center' }}>
                 {/* Image Section */}
                 <div style={{
-                    background: 'rgba(255,255,255,0.05)',
+                    background: 'linear-gradient(to bottom, #fff0f5, #fff)',
                     borderRadius: 'var(--radius-md)',
                     height: '400px',
                     display: 'flex',
@@ -48,7 +48,7 @@ const Product = () => {
                     justifyContent: 'center',
                     overflow: 'hidden'
                 }}>
-                    <img src={product.image} alt={product.name} style={{ width: '90%', opacity: 0.9 }} />
+                    <img src={product.image} alt={product.name} style={{ width: '90%', opacity: 1, filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.15))' }} />
                 </div>
 
                 {/* Info Section */}
@@ -65,7 +65,7 @@ const Product = () => {
                     <div style={{ marginBottom: '2rem' }}>
                         <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Style Profile:</h4>
                         <span style={{
-                            background: 'rgba(255,255,255,0.1)',
+                            background: 'rgba(255, 182, 193, 0.2)',
                             padding: '0.5rem 1rem',
                             borderRadius: '20px',
                             fontSize: '0.9rem',

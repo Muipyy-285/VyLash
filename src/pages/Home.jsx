@@ -12,7 +12,7 @@ const Home = () => {
         <div className="container hero-content">
           <h1 className="hero-title">
             <span className="block" style={{ animationDelay: '0.2s', color: 'var(--color-pink-500)' }}>Redefine Your</span>
-            <span className="text-gradient block" style={{ animationDelay: '0.4s' }}>Gaze</span>
+            <span className="text-gradient block" style={{ animationDelay: '0.4s', textShadow: 'none' }}>Gaze</span>
           </h1>
           <p className="hero-subtitle">
             Experience the future of beauty with our premium magnetic eyelashes.
@@ -89,7 +89,7 @@ const Home = () => {
           position: relative;
           height: 100vh;
           width: 100%;
-          background-image: url('https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=2000&auto=format&fit=crop');
+          background-image: url('https://images.unsplash.com/photo-1496096265110-f83ad7f96608?q=80&w=2000&auto=format&fit=crop');
           background-size: cover;
           background-position: center;
           display: flex;
@@ -99,7 +99,7 @@ const Home = () => {
         .hero-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+          background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,240,245,0.6), rgba(255,255,255,1));
           z-index: 1;
         }
         .hero-content {
@@ -122,7 +122,8 @@ const Home = () => {
         }
         .hero-subtitle {
           font-size: 1.1rem;
-          color: var(--text-muted);
+          color: var(--color-black);
+          font-weight: 500;
           margin-bottom: 2.5rem;
           max-width: 600px;
           margin-left: auto;
@@ -133,6 +134,10 @@ const Home = () => {
           gap: 1.5rem;
           justify-content: center;
           flex-wrap: wrap;
+        }
+
+        .glass-panel:hover {
+             transform: translateY(-5px);
         }
         .block {
           display: block;

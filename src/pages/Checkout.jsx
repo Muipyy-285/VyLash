@@ -77,10 +77,10 @@ const Checkout = () => {
                             <input type="text" required style={{
                                 width: '100%',
                                 padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'rgba(255, 255, 255, 0.5)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white'
+                                color: 'var(--color-black)'
                             }} />
                         </div>
                         <div style={{ marginBottom: '1rem' }}>
@@ -88,10 +88,10 @@ const Checkout = () => {
                             <input type="email" required style={{
                                 width: '100%',
                                 padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'rgba(255, 255, 255, 0.5)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white'
+                                color: 'var(--color-black)'
                             }} />
                         </div>
                         <div style={{ marginBottom: '1rem' }}>
@@ -99,10 +99,10 @@ const Checkout = () => {
                             <textarea required rows="3" style={{
                                 width: '100%',
                                 padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'rgba(255, 255, 255, 0.5)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white',
+                                color: 'var(--color-black)',
                                 fontFamily: 'inherit'
                             }}></textarea>
                         </div>
@@ -111,10 +111,10 @@ const Checkout = () => {
                             <input type="tel" required style={{
                                 width: '100%',
                                 padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'rgba(255, 255, 255, 0.5)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white'
+                                color: 'var(--color-black)'
                             }} />
                         </div>
 

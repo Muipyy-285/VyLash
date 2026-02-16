@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container header-content">
-        <Link to="/" className="logo" style={{ color: 'var(--color-pink-500)', textDecoration: 'none' }}>VyLash</Link>
+        <Link to="/" className="logo" style={{ textDecoration: 'none' }}>VyLash</Link>
 
         {/* Desktop Nav */}
         <nav className="desktop-nav">
@@ -80,10 +80,11 @@ const Header = () => {
           padding: 1.5rem 0;
         }
         .header.scrolled {
-          background: rgba(5, 5, 5, 0.8);
-          backdrop-filter: blur(10px);
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(20px);
           padding: 1rem 0;
-          border-bottom: 1px solid var(--glass-border);
+          border-bottom: 1px solid rgba(255,255,255,0.5);
+          box-shadow: 0 4px 20px -5px rgba(255, 182, 193, 0.3);
         }
         .header-content {
           display: flex;
@@ -92,9 +93,13 @@ const Header = () => {
         }
         .logo {
           font-family: var(--font-heading);
-          font-size: 1.5rem;
+          font-size: 1.8rem;
           font-weight: 700;
           letter-spacing: 0.05em;
+          background: linear-gradient(to right, var(--color-pink-400), var(--color-gold));
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
         .desktop-nav {
           display: none;
@@ -106,15 +111,16 @@ const Header = () => {
           }
         }
         .nav-link {
-          color: var(--color-pink-500);
-          font-size: 0.9rem;
+          color: var(--color-black);
+          font-size: 0.95rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          transition: color 0.3s ease;
+          transition: all 0.3s ease;
+          font-weight: 600;
         }
         .nav-link:hover, .nav-link.active {
-          color: var(--color-white);
-          text-shadow: 0 0 10px var(--color-pink-500);
+          color: var(--color-pink-500);
+          text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
         .header-actions {
           display: flex;
@@ -155,16 +161,22 @@ const Header = () => {
           display: flex;
           flex-direction: column;
           padding: 1rem;
-          background: rgba(5, 5, 5, 0.95);
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(255,255,255,0.5);
+          box-shadow: 0 10px 30px -10px rgba(255, 182, 193, 0.3);
         }
         .mobile-nav-link {
           padding: 1rem;
-          color: var(--color-pink-400);
-          border-bottom: 1px solid var(--glass-border);
+          color: var(--color-black);
+          border-bottom: 1px solid rgba(0,0,0,0.05);
           text-align: center;
           font-weight: 700;
           text-transform: uppercase;
           text-decoration: none;
+        }
+        .mobile-nav-link:last-child {
+            border-bottom: none;
         }
       `}</style>
     </header>

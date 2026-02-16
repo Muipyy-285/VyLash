@@ -1,40 +1,45 @@
 :root {
-  /* Colors - Pastel Pink Theme */
-  --color-pink-100: #fff1f2;
-  /* Very light pink */
-  --color-pink-200: #ffe4e6;
-  /* Light pink */
-  --color-pink-300: #fecdd3;
-  /* Soft pink */
-  --color-pink-400: #fda4af;
-  /* Medium pink */
-  --color-pink-500: #fb7185;
-  /* Accent pink */
+  /* Colors - Dreamy Pink Theme */
+  --color-pink-100: #fff0f5;
+  /* Lavender Blush - Very light background */
+  --color-pink-200: #ffe4e1;
+  /* Misty Rose - Soft background accents */
+  --color-pink-300: #ffb6c1;
+  /* Light Pink - Secondary elements */
+  --color-pink-400: #ff69b4;
+  /* Hot Pink - Primary buttons/accents */
+  --color-pink-500: #db7093;
+  /* Deep Pink - Hover states/Text */
 
-  --color-gold: #D4AF37;
-  /* Keep gold for accents */
+  --color-gold: #d4af37;
+  /* Classic Gold - Luxury accents */
+  --color-gold-light: #fceda6;
+  /* Light Gold - Gradients */
 
-  --color-black: #1c1917;
-  /* Warm black */
-  --color-dark-gray: #44403c;
+  --color-black: #4a4a4a;
+  /* Dark Grey - Softer than black */
+  --color-dark-gray: #808080;
   --color-white: #ffffff;
 
-  /* Text */
+  /* Text - High contrast for readability */
   --text-main: var(--color-black);
-  --text-muted: #78716c;
-  --text-light: #fafaf9;
-  /* For dark backgrounds */
+  --text-muted: var(--color-dark-gray);
+  --text-light: var(--color-white);
 
   /* Global Overrides */
-  --bg-body: linear-gradient(135deg, var(--color-pink-100) 0%, var(--color-pink-200) 100%);
+  /* Soft cloud-like gradient */
+  --bg-body: linear-gradient(135deg, #ffffff 0%, var(--color-pink-100) 50%, var(--color-pink-200) 100%);
 
   /* Components */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --glass-bg: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-blur: 16px;
-  --shadow-sm: 0 4px 6px -1px rgba(251, 113, 133, 0.1);
+  --radius-sm: 12px;
+  --radius-md: 24px;
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-blur: 20px;
+
+  /* Soft, dreamy shadows */
+  --shadow-sm: 0 8px 20px -5px rgba(255, 105, 180, 0.15);
+  --shadow-glow: 0 0 25px rgba(255, 105, 180, 0.4);
 
 
   /* Typography */

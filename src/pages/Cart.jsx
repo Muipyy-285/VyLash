@@ -42,7 +42,7 @@ const Cart = () => {
                             <div style={{
                                 width: '80px',
                                 height: '80px',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'linear-gradient(to bottom, #fff0f5, #fff)',
                                 borderRadius: 'var(--radius-sm)',
                                 display: 'flex',
                                 alignItems: 'center',
