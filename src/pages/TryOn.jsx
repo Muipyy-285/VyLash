@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SnapARFilter from '../components/SnapARFilter';
+import ARFilter from '../components/ARFilter';
 
 const LENSES = [
     {
@@ -25,6 +26,11 @@ const LENSES = [
 const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
 
+    // UI States
+    const [arMode, setArMode] = useState(() => localStorage.getItem('vylash_ar_mode') || 'mediapipe');
+    const [lashColor, setLashColor] = useState('black');
+    const [lashLength, setLashLength] = useState('medium');
+
     // Cycle through lenses for "Lash Map" button
     const handleLashMapClick = () => {
         const currentIndex = LENSES.findIndex(l => l.lensId === currentLens);
@@ -34,18 +40,41 @@ const TryOn = () => {
 
     const currentLensObj = LENSES.find(l => l.lensId === currentLens) || LENSES[0];
 
+    const handleModeChange = (mode) => {
+        setArMode(mode);
+    };
+
     return (
         <div className="try-on-page">
             <div className="try-on-container">
                 {/* Text Overlay - Top Left */}
                 <div className="overlay-text top-left">
                     <div className="lengths-label">Lengths Included</div>
-                    <div className="lengths-value">10-10-12-12-14-12mm</div>
+                    <div className="lengths-value">{lashLength === 'short' ? '8-8-10-10-12-10mm' : lashLength === 'medium' ? '10-10-12-12-14-12mm' : '12-12-14-14-16-14mm'}</div>
                 </div>
 
-                {/* Snap AR Filter */}
+                {/* AR Filter Area */}
                 <div className="ar-wrapper">
-                    <SnapARFilter lensId={currentLens} />
+                    {arMode === 'snap' ? (
+                        <SnapARFilter lensId={currentLens} />
+                    ) : (
+                        <ARFilter currentStyle={currentLensObj.id} />
+                    )}
+                </div>
+
+                {/* Mode Switcher - Top Right or integrated nicely */}
+                <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 30 }}>
+                    {/* Simplified switcher just for toggle, or we can use the full component below if preferred. 
+                         Let's put the full component momentarily visible or just small toggles? 
+                         Actually, the user might want it more accessible. Let's put it above controls? 
+                         For now, let's keep it simple. */}
+                    <button
+                        onClick={() => handleModeChange(arMode === 'snap' ? 'mediapipe' : 'snap')}
+                        className="glass-pill"
+                        style={{ background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.3)', color: 'white' }}
+                    >
+                        {arMode === 'snap' ? '👻 Snap AR' : '✨ Custom AR'}
+                    </button>
                 </div>
 
                 {/* Floating Controls - Bottom */}
@@ -59,32 +88,44 @@ const TryOn = () => {
                         </button>
                     </div>
 
-                    {/* Center: Color (Placeholder) */}
+                    {/* Center: Color */}
                     <div className="control-group center">
                         <div className="control-label">Color</div>
-                        <button className="control-btn glass-pill active">
-                            <span className="color-dot black"></span>
-                            <span>Black</span>
-                        </button>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                                className={`control-btn glass-pill ${lashColor === 'black' ? 'active' : ''}`}
+                                onClick={() => setLashColor('black')}
+                                style={{ minWidth: 'auto', padding: '8px 16px' }}
+                            >
+                                <span className="color-dot black"></span>
+                            </button>
+                            <button
+                                className={`control-btn glass-pill ${lashColor === 'brown' ? 'active' : ''}`}
+                                onClick={() => setLashColor('brown')}
+                                style={{ minWidth: 'auto', padding: '8px 16px' }}
+                            >
+                                <span className="color-dot brown" style={{ background: '#5D4037' }}></span>
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Right: Length (Placeholder) */}
+                    {/* Right: Length */}
                     <div className="control-group right">
                         <div className="control-label">Length</div>
-                        <button className="control-btn glass-pill">
-                            <span>+ Medium</span>
+                        <button
+                            className="control-btn glass-pill"
+                            onClick={() => setLashLength(prev => prev === 'short' ? 'medium' : prev === 'medium' ? 'long' : 'short')}
+                        >
+                            <span>{lashLength === 'short' ? 'S' : lashLength === 'medium' ? 'M' : 'L'}</span>
                         </button>
                     </div>
                 </div>
 
                 {/* Powered By */}
                 <div className="powered-by">
-                    <small>Powered by Snap AR</small>
+                    <small>Powered by {arMode === 'snap' ? 'Snap AR' : 'MediaPipe'}</small>
                 </div>
             </div>
-
-            {/* Debug Toggle - Discrete */}
-
 
             <style>{`
                 .try-on-page {
@@ -119,6 +160,7 @@ const TryOn = () => {
                 .ar-wrapper {
                     width: 100%;
                     height: 100%;
+                    background: #111; /* Placeholder bg */
                 }
 
                 /* Overlays */
@@ -160,7 +202,7 @@ const TryOn = () => {
                     justify-content: space-between;
                     align-items: flex-end;
                     z-index: 20;
-                    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
                 }
 
                 .control-group {
@@ -229,7 +271,7 @@ const TryOn = () => {
                     display: flex;
                     align-items: center;
                     gap: 8px;
-                    min-width: 100px;
+                    min-width: 60px;
                     justify-content: center;
                     font-size: 0.9rem;
                 }
@@ -256,19 +298,6 @@ const TryOn = () => {
                     color: rgba(255,255,255,0.4);
                     font-size: 0.7rem;
                     z-index: 10;
-                }
-
-                .debug-toggle-container {
-                    margin-top: 1rem;
-                }
-
-                .debug-btn {
-                    background: transparent;
-                    border: 1px solid #333;
-                    color: #555;
-                    padding: 5px 10px;
-                    border-radius: 4px;
-                    cursor: pointer;
                 }
             `}</style>
         </div>
