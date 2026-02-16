@@ -92,7 +92,7 @@ vylah02/
 │   └── styles/         # Global CSS and variables
 ├── .env                # Environment variables (not committed)
 ├── .env.example        # Environment template
-└── snap-setup.md       # Snap Camera Kit setup guide
+├── snap-setup.md       # Snap Camera Kit setup guide
 ```
 
 ## 🎨 Design
