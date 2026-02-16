@@ -1,0 +1,57 @@
+:root {
+  /* Colors - Pastel Pink Theme */
+  --color-pink-100: #fff1f2;
+  /* Very light pink */
+  --color-pink-200: #ffe4e6;
+  /* Light pink */
+  --color-pink-300: #fecdd3;
+  /* Soft pink */
+  --color-pink-400: #fda4af;
+  /* Medium pink */
+  --color-pink-500: #fb7185;
+  /* Accent pink */
+
+  --color-gold: #D4AF37;
+  /* Keep gold for accents */
+
+  --color-black: #1c1917;
+  /* Warm black */
+  --color-dark-gray: #44403c;
+  --color-white: #ffffff;
+
+  /* Text */
+  --text-main: var(--color-black);
+  --text-muted: #78716c;
+  --text-light: #fafaf9;
+  /* For dark backgrounds */
+
+  /* Global Overrides */
+  --bg-body: linear-gradient(135deg, var(--color-pink-100) 0%, var(--color-pink-200) 100%);
+
+  /* Components */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: 16px;
+  --shadow-sm: 0 4px 6px -1px rgba(251, 113, 133, 0.1);
+
+
+  /* Typography */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 8rem;
+
+  /* Components */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 10px;
+}
