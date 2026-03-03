@@ -457,33 +457,22 @@ ${w.join(`
                 }
             `})]})},os=[{id:"natural",name:"Natural",lensId:"f37dd9b8-0360-48b1-8f36-cbe03d8cd376",description:"Soft, natural lashes"},{id:"cateye",name:"Cat Eye",lensId:"c8690620-9597-4f82-991a-2be365babef2",description:"Winged, dramatic look"},{id:"dramatic",name:"Dramatic",lensId:"40bd7764-5ab0-403f-8117-5ca1c03fa2ca",description:"Bold, voluminous lashes"}],zM=()=>{const[e,t]=H.useState(os[0].lensId),[n,r]=H.useState("snap"),[o,i]=H.useState("black"),[c,d]=H.useState("medium"),f=()=>{const S=(os.findIndex(g=>g.lensId===e)+1)%os.length;t(os[S].lensId)},m=os.find(v=>v.lensId===e)||os[0];return N.jsxs("div",{className:"try-on-page",children:[N.jsxs("div",{className:"try-on-container",children:[N.jsxs("div",{className:"overlay-text top-left",children:[N.jsx("div",{className:"lengths-label",children:"Lengths Included"}),N.jsx("div",{className:"lengths-value",children:c==="short"?"8-8-10-10-12-10mm":c==="medium"?"10-10-12-12-14-12mm":"12-12-14-14-16-14mm"})]}),N.jsx("div",{className:"ar-wrapper",children:N.jsx(xM,{lensId:e})}),N.jsxs("div",{className:"floating-controls",children:[N.jsxs("div",{className:"control-group left",children:[N.jsx("div",{className:"style-name",children:m.name}),N.jsxs("button",{className:"control-btn glass-circle",onClick:f,children:[N.jsx("span",{className:"icon",children:"👁️"}),N.jsx("span",{className:"label",children:"Lash Map"})]})]}),N.jsxs("div",{className:"control-group center",children:[N.jsx("div",{className:"control-label",children:"Color"}),N.jsxs("div",{style:{display:"flex",gap:"8px"},children:[N.jsx("button",{className:`control-btn glass-pill ${o==="black"?"active":""}`,onClick:()=>i("black"),style:{minWidth:"auto",padding:"8px 16px"},children:N.jsx("span",{className:"color-dot black"})}),N.jsx("button",{className:`control-btn glass-pill ${o==="brown"?"active":""}`,onClick:()=>i("brown"),style:{minWidth:"auto",padding:"8px 16px"},children:N.jsx("span",{className:"color-dot brown",style:{background:"#5D4037"}})})]})]}),N.jsxs("div",{className:"control-group right",children:[N.jsx("div",{className:"control-label",children:"Length"}),N.jsx("button",{className:"control-btn glass-pill",onClick:()=>d(v=>v==="short"?"medium":v==="medium"?"long":"short"),children:N.jsx("span",{children:c==="short"?"S":c==="medium"?"M":"L"})})]})]}),N.jsx("div",{className:"powered-by",children:N.jsx("small",{children:"Powered by Snap AR"})})]}),N.jsx("style",{children:`
                 .try-on-page {
-                    min-height: 100vh;
+                    height: 100vh;
+                    width: 100vw;
                     background: #000;
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 20px;
+                    overflow: hidden;
                 }
 
                 .try-on-container {
                     position: relative;
                     width: 100%;
-                    max-width: 800px;
-                    aspect-ratio: 9/16; /* Mobile portrait aspect ratio preference, or 16/9 if landscape */
-                    /* Use max-height to fit screen */
-                    max-height: 90vh;
-                    margin: 0 auto;
-                    border-radius: 20px;
+                    height: 100%;
+                    background: #000;
                     overflow: hidden;
-                    box-shadow: 0 0 50px rgba(0,0,0,0.5);
                 }
 
-                @media (min-width: 768px) {
-                    .try-on-container {
-                        aspect-ratio: 16/9; /* Desktop landscape */
-                    }
-                }
+
 
                 .ar-wrapper {
                     width: 100%;
@@ -501,8 +490,8 @@ ${w.join(`
                 }
 
                 .top-left {
-                    top: 20px;
-                    left: 20px;
+                    top: env(safe-area-inset-top, 30px);
+                    left: env(safe-area-inset-left, 30px);
                     text-align: left;
                 }
 
@@ -525,12 +514,12 @@ ${w.join(`
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    padding: 20px 30px 40px;
+                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 30px);
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
                     z-index: 20;
-                    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+                    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
                 }
 
                 .control-group {
