@@ -104,33 +104,22 @@ const TryOn = () => {
 
             <style>{`
                 .try-on-page {
-                    min-height: 100vh;
+                    height: 100vh;
+                    width: 100vw;
                     background: #000;
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 20px;
+                    overflow: hidden;
                 }
 
                 .try-on-container {
                     position: relative;
                     width: 100%;
-                    max-width: 800px;
-                    aspect-ratio: 9/16; /* Mobile portrait aspect ratio preference, or 16/9 if landscape */
-                    /* Use max-height to fit screen */
-                    max-height: 90vh;
-                    margin: 0 auto;
-                    border-radius: 20px;
+                    height: 100%;
+                    background: #000;
                     overflow: hidden;
-                    box-shadow: 0 0 50px rgba(0,0,0,0.5);
                 }
 
-                @media (min-width: 768px) {
-                    .try-on-container {
-                        aspect-ratio: 16/9; /* Desktop landscape */
-                    }
-                }
+
 
                 .ar-wrapper {
                     width: 100%;
@@ -148,8 +137,8 @@ const TryOn = () => {
                 }
 
                 .top-left {
-                    top: 20px;
-                    left: 20px;
+                    top: env(safe-area-inset-top, 30px);
+                    left: env(safe-area-inset-left, 30px);
                     text-align: left;
                 }
 
@@ -172,12 +161,12 @@ const TryOn = () => {
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    padding: 20px 30px 40px;
+                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 30px);
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
                     z-index: 20;
-                    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+                    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
                 }
 
                 .control-group {
