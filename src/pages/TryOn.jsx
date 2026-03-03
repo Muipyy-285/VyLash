@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SnapARFilter from '../components/SnapARFilter';
-import ARFilter from '../components/ARFilter';
 
 const LENSES = [
     {
@@ -27,7 +26,7 @@ const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
 
     // UI States
-    const [arMode, setArMode] = useState(() => localStorage.getItem('vylash_ar_mode') || 'mediapipe');
+    const [arMode, setArMode] = useState('snap');
     const [lashColor, setLashColor] = useState('black');
     const [lashLength, setLashLength] = useState('medium');
 
@@ -40,10 +39,6 @@ const TryOn = () => {
 
     const currentLensObj = LENSES.find(l => l.lensId === currentLens) || LENSES[0];
 
-    const handleModeChange = (mode) => {
-        setArMode(mode);
-    };
-
     return (
         <div className="try-on-page">
             <div className="try-on-container">
@@ -55,26 +50,7 @@ const TryOn = () => {
 
                 {/* AR Filter Area */}
                 <div className="ar-wrapper">
-                    {arMode === 'snap' ? (
-                        <SnapARFilter lensId={currentLens} />
-                    ) : (
-                        <ARFilter currentStyle={currentLensObj.id} />
-                    )}
-                </div>
-
-                {/* Mode Switcher - Top Right or integrated nicely */}
-                <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 30 }}>
-                    {/* Simplified switcher just for toggle, or we can use the full component below if preferred. 
-                         Let's put the full component momentarily visible or just small toggles? 
-                         Actually, the user might want it more accessible. Let's put it above controls? 
-                         For now, let's keep it simple. */}
-                    <button
-                        onClick={() => handleModeChange(arMode === 'snap' ? 'mediapipe' : 'snap')}
-                        className="glass-pill"
-                        style={{ background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.3)', color: 'white' }}
-                    >
-                        {arMode === 'snap' ? '👻 Snap AR' : '✨ Custom AR'}
-                    </button>
+                    <SnapARFilter lensId={currentLens} />
                 </div>
 
                 {/* Floating Controls - Bottom */}
@@ -121,9 +97,8 @@ const TryOn = () => {
                     </div>
                 </div>
 
-                {/* Powered By */}
                 <div className="powered-by">
-                    <small>Powered by {arMode === 'snap' ? 'Snap AR' : 'MediaPipe'}</small>
+                    <small>Powered by Snap AR</small>
                 </div>
             </div>
 

@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { supabase } from '../utils/supabaseClient';
 
 const Checkout = () => {
-    const { cartItems, clearCart } = useCart();
+    const { cartItems, clearCart, totalPrice } = useCart();
     const navigate = useNavigate();
     const [isOrderPlaced, setIsOrderPlaced] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
+        phone: '',
         address: '',
-        phone: ''
+        paymentMethod: 'qr'
     });
-
-    const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +24,7 @@ const Checkout = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        if (!formData.name || !formData.email || !formData.address || !formData.phone) {
+        if (!formData.name || !formData.address || !formData.phone) {
             alert('กรุณากรอกข้อมูลให้ครบถ้วน (Please fill in all fields)');
             setIsSubmitting(false);
             return;
@@ -33,30 +32,34 @@ const Checkout = () => {
 
         try {
             const orderData = {
-                customer: formData,
+                customer_name: formData.name,
+                customer_phone: formData.phone,
+                customer_address: formData.address,
+                payment_method: formData.paymentMethod,
                 items: cartItems,
-                total: totalPrice,
-                paymentMethod: 'QR Code (PromptPay)'
+                total_price: totalPrice,
+                status: 'pending',
+                created_at: new Date().toISOString()
             };
 
-            const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            const response = await fetch(`${apiBaseUrl}/api/orders`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
-            });
+            // Insert into Supabase 'orders' table
+            const { error } = await supabase
+                .from('orders')
+                .insert([orderData]);
 
-            if (response.ok) {
-                setIsOrderPlaced(true);
-                clearCart();
-            } else {
-                alert('เกิดข้อผิดพลาดในการสั่งซื้อ กรุณาลองใหม่อีกครั้ง');
+            if (error) {
+                console.error('Supabase Error:', error);
+                alert(`เกิดข้อผิดพลาดในการสั่งซื้อ: ${error.message} (Code: ${error.code})`);
+                return;
             }
+
+            // Success
+            setIsOrderPlaced(true);
+            clearCart();
+
         } catch (error) {
-            console.error('Order Error:', error);
-            alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+            console.error('Connection Error:', error);
+            alert('ไม่สามารถเชื่อมต่อกับ Supabase ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ');
         } finally {
             setIsSubmitting(false);
         }

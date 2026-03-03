@@ -104,9 +104,21 @@ const Cart = () => {
                             <span style={{ color: 'var(--color-pink-500)' }}>฿{totalPrice}</span>
                         </div>
 
-                        <Link to="/checkout" className="btn-primary" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+                        <button
+                            onClick={() => navigate('/checkout')}
+                            className="btn-primary"
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                zIndex: 10,
+                                position: 'relative'
+                            }}
+                        >
                             Checkout <ArrowRight size={18} />
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>

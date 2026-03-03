@@ -1,7 +1,7 @@
 
-import lashNatural from '../assets/eyelash_natural.png';
-import lashCatEye from '../assets/eyelash_cateye_v2.png';
-import lashDramatic from '../assets/eyelash_dramatic.png';
+import lashNatural from '../assets/lash_natural_new.png';
+import lashCatEye from '../assets/lash_cateye_new.png';
+import lashDramatic from '../assets/lash_dramatic_new.png';
 
 export const products = [
     {

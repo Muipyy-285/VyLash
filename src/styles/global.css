@@ -20,7 +20,7 @@
 
 .glass-panel:hover {
     background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-5px);
+    transform: translateY(-2px); /* Reduced from -5px to prevent extreme coordinate shifts */
     box-shadow: 0 15px 35px -5px rgba(255, 105, 180, 0.4);
 }
 
@@ -59,6 +59,10 @@
         0 12px 25px rgba(255, 105, 180, 0.5);
     background: linear-gradient(to bottom, var(--color-pink-400), var(--color-pink-500));
     color: var(--color-white);
+}
+
+.btn-primary svg {
+    pointer-events: none; /* Prevent icons from intercepting clicks */
 }
 
 .btn-primary:active {

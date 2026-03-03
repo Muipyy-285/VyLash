@@ -5,9 +5,9 @@ import { Camera } from '@mediapipe/camera_utils';
 import { drawLashes, drawLandmarks } from '../utils/arUtils';
 
 // Import all styles
-import lashNatural from '../assets/eyelash_natural.png';
-import lashCatEye from '../assets/eyelash_cateye_v2.png';
-import lashDramatic from '../assets/eyelash_dramatic.png';
+import lashNatural from '../assets/lash_natural_new.png';
+import lashCatEye from '../assets/lash_cateye_new.png';
+import lashDramatic from '../assets/lash_dramatic_new.png';
 import lashCustom from '../assets/eyelash_custom.png';
 
 const stylesMap = {

@@ -1,43 +1,50 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
+import { supabase } from '../utils/supabaseClient';
 
 const Feedback = () => {
-    const [submitted, setSubmitted] = useState(false);
-
+    const [formData, setFormData] = useState({
+        name: '',
+        content: '',
+        rating: 5
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [rating, setRating] = useState(5);
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
         try {
-            const response = await fetch(`${apiBaseUrl}/api/feedback`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, rating, message }),
-            });
+            const feedbackData = {
+                customer_name: formData.name,
+                content: formData.content,
+                rating: parseInt(formData.rating),
+                created_at: new Date().toISOString()
+            };
 
-            if (response.ok) {
-                setSubmitted(true);
-            } else {
-                alert('เกิดข้อผิดพลาดในการส่งความคิดเห็น กรุณาลองใหม่อีกครั้ง');
+            // Insert into Supabase 'feedback' table
+            const { error } = await supabase
+                .from('feedback')
+                .insert([feedbackData]);
+
+            if (error) {
+                console.error('Supabase Error:', error);
+                alert(`เกิดข้อผิดพลาด: ${error.message} `);
+                return;
             }
+
+            setIsSubmitted(true);
+            setFormData({ name: '', content: '', rating: 5 });
         } catch (error) {
-            console.error('Feedback Error:', error);
-            alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+            console.error('Connection Error:', error);
+            alert('ไม่สามารถเชื่อมต่อกับ Supabase ได้');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    if (submitted) {
+    if (isSubmitted) {
         return (
             <div className="container" style={{ paddingTop: '150px', textAlign: 'center' }}>
                 <div style={{ marginBottom: '2rem', color: 'var(--color-pink-500)' }}>
