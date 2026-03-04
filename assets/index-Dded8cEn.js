@@ -510,7 +510,7 @@ ${w.join(`
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 30px);
+                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 80px);
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
