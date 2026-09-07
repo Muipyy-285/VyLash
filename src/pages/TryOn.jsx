@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Home, ShoppingBag } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 import SnapARFilter from '../components/SnapARFilter';
 
 const LENSES = [
@@ -39,6 +42,8 @@ const TryOn = () => {
 
     const currentLensObj = LENSES.find(l => l.lensId === currentLens) || LENSES[0];
 
+    const { cartCount } = useCart();
+
     return (
         <div className="try-on-page">
             <div className="try-on-container">
@@ -46,6 +51,17 @@ const TryOn = () => {
                 <div className="overlay-text top-left">
                     <div className="lengths-label">Lengths Included</div>
                     <div className="lengths-value">{lashLength === 'short' ? '8-8-10-10-12-10mm' : lashLength === 'medium' ? '10-10-12-12-14-12mm' : '12-12-14-14-16-14mm'}</div>
+                </div>
+
+                {/* Navigation - Top Right */}
+                <div className="top-nav">
+                    <Link to="/" className="nav-btn glass-circle-sm" title="Home">
+                        <Home size={20} />
+                    </Link>
+                    <Link to="/cart" className="nav-btn glass-circle-sm" title="Cart">
+                        <ShoppingBag size={20} />
+                        {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+                    </Link>
                 </div>
 
                 {/* AR Filter Area */}
@@ -161,7 +177,7 @@ const TryOn = () => {
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 30px);
+                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 120px);
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
@@ -262,6 +278,56 @@ const TryOn = () => {
                     color: rgba(255,255,255,0.4);
                     font-size: 0.7rem;
                     z-index: 10;
+                }
+
+                /* Top Navigation Overlay */
+                .top-nav {
+                    position: absolute;
+                    top: env(safe-area-inset-top, 20px);
+                    right: 20px;
+                    display: flex;
+                    gap: 12px;
+                    z-index: 30;
+                }
+
+                .glass-circle-sm {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgba(255, 255, 255, 0.15);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    color: white;
+                    text-decoration: none;
+                    position: relative;
+                    transition: all 0.2s ease;
+                }
+
+                .glass-circle-sm:hover {
+                    background: rgba(255, 255, 255, 0.25);
+                    transform: scale(1.05);
+                }
+
+                .cart-badge {
+                    position: absolute;
+                    top: -2px;
+                    right: -2px;
+                    background: var(--color-gold);
+                    color: black;
+                    font-size: 0.7rem;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 700;
+                    border: 1px solid white;
+                    line-height: 1;
                 }
             `}</style>
         </div>

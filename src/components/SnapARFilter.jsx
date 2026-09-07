@@ -202,12 +202,11 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
             {/* AR Canvas */}
             <canvas
                 ref={canvasRef}
-                width={800}
-                height={450}
                 className="snap-ar-canvas"
                 style={{
                     width: '100%',
                     height: '100%',
+                    objectFit: 'cover',
                     display: error ? 'none' : 'block',
                     opacity: isArReady ? 1 : 0.5,
                     transition: 'opacity 0.3s ease'
@@ -226,13 +225,9 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 .ar-container {
                     position: relative;
                     width: 100%;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    border-radius: var(--radius-md);
-                    overflow: hidden;
-                    aspect-ratio: 16/9;
+                    height: 100%;
                     background: #000;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                    overflow: hidden;
                 }
 
                 .loading-overlay,
