@@ -18,7 +18,10 @@ export const paymentConfig = {
     lineId: import.meta.env.VITE_LINE_ID || '@vylash',
 
     // Order reference prefix
-    orderPrefix: 'VY'
+    orderPrefix: 'VY',
+
+    // Webhook URL (Google Apps Script / Vercel API for Google Sheets & LINE Notify)
+    orderWebhookUrl: import.meta.env.VITE_ORDER_WEBHOOK_URL || ''
 };
 
 export default paymentConfig;

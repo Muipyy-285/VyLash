@@ -247,7 +247,40 @@ const Checkout = () => {
             }
         }
 
-        // 3. Clear shopping cart & switch to Confirmed view
+        // 3. Send automated order notification to Webhook (Google Sheets + LINE Notify)
+        const webhookUrl = paymentConfig.orderWebhookUrl;
+        if (webhookUrl) {
+            try {
+                const webhookPayload = {
+                    orderId: completeOrder.id,
+                    customer: completeOrder.customer,
+                    items: completeOrder.items,
+                    totalPrice: completeOrder.totalPrice,
+                    paymentMethod: completeOrder.paymentMethod,
+                    status: completeOrder.status,
+                    createdAt: completeOrder.createdAt,
+                    slipBase64: slip ? slip.previewUrl : null,
+                    slipName: slip ? slip.name : null
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // Enables seamless communication with Google Apps Script Web Apps
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(webhookPayload)
+                }).then(() => {
+                    console.log('Order sent to notification webhook successfully');
+                }).catch(err => {
+                    console.warn('Webhook notification dispatch notice:', err);
+                });
+            } catch (err) {
+                console.warn('Webhook dispatch skipped:', err);
+            }
+        }
+
+        // 4. Clear shopping cart & switch to Confirmed view
         clearCart();
         setOrderInfo(completeOrder);
         setCurrentStep('confirmed');
