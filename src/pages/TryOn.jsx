@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -27,30 +27,18 @@ const LENSES = [
 
 const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
-
-    // UI States
-    const [arMode, setArMode] = useState('snap');
-    const [lashColor, setLashColor] = useState('black');
-    const [lashLength, setLashLength] = useState('medium');
-
-    // Cycle through lenses for "Lash Map" button
-    const handleLashMapClick = () => {
-        const currentIndex = LENSES.findIndex(l => l.lensId === currentLens);
-        const nextIndex = (currentIndex + 1) % LENSES.length;
-        setCurrentLens(LENSES[nextIndex].lensId);
-    };
+    const { cartCount } = useCart();
 
     const currentLensObj = LENSES.find(l => l.lensId === currentLens) || LENSES[0];
-
-    const { cartCount } = useCart();
 
     return (
         <div className="try-on-page">
             <div className="try-on-container">
                 {/* Text Overlay - Top Left */}
                 <div className="overlay-text top-left">
-                    <div className="lengths-label">Lengths Included</div>
-                    <div className="lengths-value">{lashLength === 'short' ? '8-8-10-10-12-10mm' : lashLength === 'medium' ? '10-10-12-12-14-12mm' : '12-12-14-14-16-14mm'}</div>
+                    <div className="brand-label">VyLash AR</div>
+                    <div className="style-name-badge">{currentLensObj.name} Style</div>
+                    <div className="style-desc">{currentLensObj.description}</div>
                 </div>
 
                 {/* Navigation - Top Right */}
@@ -69,47 +57,22 @@ const TryOn = () => {
                     <SnapARFilter lensId={currentLens} />
                 </div>
 
-                {/* Floating Controls - Bottom */}
+                {/* Floating Controls - Bottom Style Selector */}
                 <div className="floating-controls">
-                    {/* Left: Lash Map (Style Switcher) */}
-                    <div className="control-group left">
-                        <div className="style-name">{currentLensObj.name}</div>
-                        <button className="control-btn glass-circle" onClick={handleLashMapClick}>
-                            <span className="icon">👁️</span>
-                            <span className="label">Lash Map</span>
-                        </button>
-                    </div>
-
-                    {/* Center: Color */}
-                    <div className="control-group center">
-                        <div className="control-label">Color</div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            <button
-                                className={`control-btn glass-pill ${lashColor === 'black' ? 'active' : ''}`}
-                                onClick={() => setLashColor('black')}
-                                style={{ minWidth: 'auto', padding: '8px 16px' }}
-                            >
-                                <span className="color-dot black"></span>
-                            </button>
-                            <button
-                                className={`control-btn glass-pill ${lashColor === 'brown' ? 'active' : ''}`}
-                                onClick={() => setLashColor('brown')}
-                                style={{ minWidth: 'auto', padding: '8px 16px' }}
-                            >
-                                <span className="color-dot brown" style={{ background: '#5D4037' }}></span>
-                            </button>
+                    <div className="style-selector-box">
+                        <div className="selector-title">เลือกแบบขนตา (Select Style)</div>
+                        <div className="style-buttons-row">
+                            {LENSES.map((lens) => (
+                                <button
+                                    key={lens.id}
+                                    className={`control-btn style-btn ${currentLens === lens.lensId ? 'active' : ''}`}
+                                    onClick={() => setCurrentLens(lens.lensId)}
+                                >
+                                    <span className="style-icon">👁️</span>
+                                    <span className="style-label">{lens.name}</span>
+                                </button>
+                            ))}
                         </div>
-                    </div>
-
-                    {/* Right: Length */}
-                    <div className="control-group right">
-                        <div className="control-label">Length</div>
-                        <button
-                            className="control-btn glass-pill"
-                            onClick={() => setLashLength(prev => prev === 'short' ? 'medium' : prev === 'medium' ? 'long' : 'short')}
-                        >
-                            <span>{lashLength === 'short' ? 'S' : lashLength === 'medium' ? 'M' : 'L'}</span>
-                        </button>
                     </div>
                 </div>
 
@@ -135,12 +98,10 @@ const TryOn = () => {
                     overflow: hidden;
                 }
 
-
-
                 .ar-wrapper {
                     width: 100%;
                     height: 100%;
-                    background: #111; /* Placeholder bg */
+                    background: #111;
                 }
 
                 /* Overlays */
@@ -148,7 +109,7 @@ const TryOn = () => {
                     position: absolute;
                     z-index: 10;
                     color: rgba(255, 255, 255, 0.9);
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+                    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
                     pointer-events: none;
                 }
 
@@ -158,57 +119,70 @@ const TryOn = () => {
                     text-align: left;
                 }
 
-                .lengths-label {
-                    font-size: 0.85rem;
+                .brand-label {
+                    font-size: 0.8rem;
                     text-transform: uppercase;
-                    letter-spacing: 1px;
-                    opacity: 0.8;
-                    margin-bottom: 4px;
+                    letter-spacing: 1.5px;
+                    color: var(--color-gold, #f59e0b);
+                    font-weight: 700;
+                    margin-bottom: 2px;
                 }
 
-                .lengths-value {
-                    font-size: 1.1rem;
-                    font-weight: 600;
+                .style-name-badge {
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    color: white;
+                    letter-spacing: 0.5px;
                 }
 
-                /* Floating Controls */
+                .style-desc {
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.7);
+                    margin-top: 2px;
+                }
+
+                /* Floating Controls - Lash Style Switcher */
                 .floating-controls {
                     position: absolute;
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    padding: 20px 30px calc(env(safe-area-inset-bottom, 20px) + 120px);
+                    padding: 20px 20px calc(env(safe-area-inset-bottom, 20px) + 25px);
                     display: flex;
-                    justify-content: space-between;
-                    align-items: flex-end;
+                    justify-content: center;
+                    align-items: center;
                     z-index: 20;
-                    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
                 }
 
-                .control-group {
+                .style-selector-box {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    gap: 8px;
+                    gap: 10px;
+                    max-width: 500px;
+                    width: 100%;
                 }
 
-                .control-label, .style-name {
-                    color: white;
-                    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-                    font-size: 0.9rem;
+                .selector-title {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 0.82rem;
+                    letter-spacing: 0.5px;
+                    text-transform: uppercase;
                     font-weight: 500;
                 }
 
-                .style-name {
-                    color: var(--color-gold);
-                    font-weight: 600;
-                    letter-spacing: 0.5px;
+                .style-buttons-row {
+                    display: flex;
+                    gap: 12px;
+                    justify-content: center;
+                    flex-wrap: wrap;
                 }
 
                 .control-btn {
                     background: rgba(255, 255, 255, 0.15);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     border: 1px solid rgba(255, 255, 255, 0.3);
                     color: white;
                     cursor: pointer;
@@ -224,58 +198,33 @@ const TryOn = () => {
                     transform: translateY(0);
                 }
 
-                .glass-circle {
-                    width: 70px;
-                    height: 70px;
-                    border-radius: 50%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 4px;
-                }
-
-                .glass-circle .icon {
-                    font-size: 1.5rem;
-                }
-
-                .glass-circle .label {
-                    font-size: 0.65rem;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                }
-
-                .glass-pill {
+                .style-btn {
                     padding: 10px 20px;
                     border-radius: 30px;
                     display: flex;
                     align-items: center;
                     gap: 8px;
-                    min-width: 60px;
-                    justify-content: center;
-                    font-size: 0.9rem;
+                    font-size: 0.95rem;
+                    font-weight: 600;
                 }
 
-                .glass-pill.active {
-                    background: rgba(255, 255, 255, 0.9);
-                    color: black;
-                    border-color: white;
+                .style-btn.active {
+                    background: rgba(255, 255, 255, 0.95);
+                    color: #000;
+                    border-color: #fff;
+                    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.35);
+                    transform: scale(1.05);
                 }
 
-                .color-dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    border: 1px solid rgba(0,0,0,0.2);
+                .style-icon {
+                    font-size: 1.1rem;
                 }
-
-                .color-dot.black { background: #000; }
 
                 .powered-by {
                     position: absolute;
                     bottom: 10px;
                     left: 20px;
-                    color: rgba(255,255,255,0.4);
+                    color: rgba(255, 255, 255, 0.4);
                     font-size: 0.7rem;
                     z-index: 10;
                 }
@@ -316,7 +265,7 @@ const TryOn = () => {
                     position: absolute;
                     top: -2px;
                     right: -2px;
-                    background: var(--color-gold);
+                    background: var(--color-gold, #f59e0b);
                     color: black;
                     font-size: 0.7rem;
                     width: 16px;
@@ -329,11 +278,16 @@ const TryOn = () => {
                     border: 1px solid white;
                     line-height: 1;
                 }
+
+                @media (max-width: 480px) {
+                    .style-btn {
+                        padding: 8px 14px;
+                        font-size: 0.85rem;
+                    }
+                }
             `}</style>
         </div>
     );
 };
 
 export default TryOn;
-
-
