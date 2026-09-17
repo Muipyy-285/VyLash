@@ -91,6 +91,7 @@ const Header = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 1rem;
         }
         .logo {
           font-family: var(--font-heading);
@@ -101,27 +102,37 @@ const Header = () => {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
+          flex-shrink: 0;
         }
         .desktop-nav {
           display: none;
-          gap: 0.75rem;
+          gap: 0.8rem;
           align-items: center;
+          flex-shrink: 0;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 992px) {
           .desktop-nav {
             display: flex;
+            gap: 1.5rem;
+          }
+        }
+        @media (min-width: 768px) and (max-width: 991px) {
+          .desktop-nav {
+            display: flex;
+            gap: 0.6rem;
           }
         }
         .nav-link {
           color: var(--color-black);
           font-size: 0.75rem;
           text-transform: uppercase;
-          letter-spacing: 0.03em;
+          letter-spacing: 0.02em;
           transition: all 0.3s ease;
           font-weight: 600;
           white-space: nowrap;
           text-decoration: none;
           padding: 0.2rem 0.3rem;
+          flex-shrink: 0;
         }
         .nav-link:hover, .nav-link.active {
           color: var(--color-pink-500);
@@ -131,6 +142,7 @@ const Header = () => {
           display: flex;
           align-items: center;
           gap: 1rem;
+          flex-shrink: 0;
         }
         .cart-btn {
           position: relative;
