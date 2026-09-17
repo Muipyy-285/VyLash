@@ -7,7 +7,8 @@ export const products = [
     {
         id: 1,
         name: "Natural Wispy",
-        price: 159,
+        price: 350,
+        cost: 114.84,
         style: "natural",
         image: lashNatural, // In a real app, this would be a product photo
         description: "Perfect for everyday wear. These magnetic lashes add subtle volume and length for a natural enhancement."
@@ -15,7 +16,8 @@ export const products = [
     {
         id: 2,
         name: "Cat Eye Glam",
-        price: 199,
+        price: 180,
+        cost: 55.45,
         style: "cateye",
         image: lashCatEye,
         description: "Elongate your eyes with our signature Cat Eye style. Flared outer corners create a seductive, lifted look."
@@ -23,7 +25,8 @@ export const products = [
     {
         id: 3,
         name: "Dramatic Volume",
-        price: 259,
+        price: 190,
+        cost: 58.73,
         style: "dramatic",
         image: lashDramatic,
         description: "Make a statement. These high-volume lashes provide maximum density and length for special occasions."
