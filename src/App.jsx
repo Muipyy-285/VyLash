@@ -1,35 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
-import Header from './components/Header';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Product from './pages/Product';
-import TryOn from './pages/TryOn';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import Feedback from './pages/Feedback';
+import React, { useEffect } from 'react';
+
+const GA_MEASUREMENT_ID = 'G-KNZ6KBCG48';
 
 function App() {
+  useEffect(() => {
+    if (!window.gtag) {
+      const script = document.createElement('script');
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+      script.async = true;
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID);
+    }
+  }, []);
+
   return (
-    <CartProvider>
-      <Router>
-        <div className="app">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/try-on" element={<TryOn />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/feedback" element={<Feedback />} />
-            </Routes>
-          </main>
-        </div>
-      </Router>
-    </CartProvider>
+    <div>
+      {/* ส่วนประกอบหลักของแอปพลิเคชัน VyLash */}
+    </div>
   );
 }
 
