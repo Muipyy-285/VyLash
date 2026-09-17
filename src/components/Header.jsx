@@ -22,6 +22,7 @@ const Header = () => {
     { name: 'Shop', path: '/shop' },
     { name: 'AR Try-On', path: '/try-on' },
     { name: 'Feedback', path: '/feedback' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   return (
