@@ -78,12 +78,12 @@ const Header = () => {
           width: 100%;
           z-index: 1000;
           transition: all 0.3s ease;
-          padding: 1.5rem 0;
+          padding: 1.2rem 0;
         }
         .header.scrolled {
           background: rgba(255, 255, 255, 0.85);
           backdrop-filter: blur(20px);
-          padding: 1rem 0;
+          padding: 0.8rem 0;
           border-bottom: 1px solid rgba(255,255,255,0.5);
           box-shadow: 0 4px 20px -5px rgba(255, 182, 193, 0.3);
         }
@@ -104,20 +104,24 @@ const Header = () => {
         }
         .desktop-nav {
           display: none;
-          gap: 2rem;
+          gap: 1.2rem;
+          align-items: center;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 900px) {
           .desktop-nav {
             display: flex;
+            gap: 1.5rem;
           }
         }
         .nav-link {
           color: var(--color-black);
-          font-size: 0.95rem;
+          font-size: 0.85rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
           transition: all 0.3s ease;
           font-weight: 600;
+          white-space: nowrap;
+          text-decoration: none;
         }
         .nav-link:hover, .nav-link.active {
           color: var(--color-pink-500);
@@ -148,8 +152,11 @@ const Header = () => {
         }
         .mobile-menu-btn {
           display: block;
+          background: none;
+          border: none;
+          cursor: pointer;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 900px) {
           .mobile-menu-btn {
             display: none;
           }
@@ -177,7 +184,7 @@ const Header = () => {
           text-decoration: none;
         }
         .mobile-nav-link:last-child {
-            border-bottom: none;
+          border-bottom: none;
         }
       `}</style>
     </header>
