@@ -91,7 +91,7 @@ const Header = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 1rem;
+          gap: 0.5rem;
         }
         .logo {
           font-family: var(--font-heading);
@@ -106,32 +106,25 @@ const Header = () => {
         }
         .desktop-nav {
           display: none;
-          gap: 0.8rem;
+          gap: 0.6rem;
           align-items: center;
           flex-shrink: 0;
         }
-        @media (min-width: 992px) {
+        @media (min-width: 768px) {
           .desktop-nav {
             display: flex;
-            gap: 1.5rem;
-          }
-        }
-        @media (min-width: 768px) and (max-width: 991px) {
-          .desktop-nav {
-            display: flex;
-            gap: 0.6rem;
           }
         }
         .nav-link {
           color: var(--color-black);
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           text-transform: uppercase;
           letter-spacing: 0.02em;
           transition: all 0.3s ease;
           font-weight: 600;
           white-space: nowrap;
           text-decoration: none;
-          padding: 0.2rem 0.3rem;
+          padding: 0.2rem 0.2rem;
           flex-shrink: 0;
         }
         .nav-link:hover, .nav-link.active {
@@ -141,7 +134,7 @@ const Header = () => {
         .header-actions {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.8rem;
           flex-shrink: 0;
         }
         .cart-btn {
