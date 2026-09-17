@@ -104,24 +104,24 @@ const Header = () => {
         }
         .desktop-nav {
           display: none;
-          gap: 1.2rem;
+          gap: 0.75rem;
           align-items: center;
         }
-        @media (min-width: 900px) {
+        @media (min-width: 768px) {
           .desktop-nav {
             display: flex;
-            gap: 1.5rem;
           }
         }
         .nav-link {
           color: var(--color-black);
-          font-size: 0.85rem;
+          font-size: 0.75rem;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.03em;
           transition: all 0.3s ease;
           font-weight: 600;
           white-space: nowrap;
           text-decoration: none;
+          padding: 0.2rem 0.3rem;
         }
         .nav-link:hover, .nav-link.active {
           color: var(--color-pink-500);
@@ -156,7 +156,7 @@ const Header = () => {
           border: none;
           cursor: pointer;
         }
-        @media (min-width: 900px) {
+        @media (min-width: 768px) {
           .mobile-menu-btn {
             display: none;
           }
