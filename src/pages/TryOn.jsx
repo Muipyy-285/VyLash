@@ -28,8 +28,6 @@ const TryOn = () => {
 
     // UI States
     const [arMode, setArMode] = useState(() => localStorage.getItem('vylash_ar_mode') || 'mediapipe');
-    const [lashColor, setLashColor] = useState('black');
-    const [lashLength, setLashLength] = useState('medium');
 
     // Cycle through lenses for "Lash Map" button
     const handleLashMapClick = () => {
@@ -47,12 +45,6 @@ const TryOn = () => {
     return (
         <div className="try-on-page">
             <div className="try-on-container">
-                {/* Text Overlay - Top Left */}
-                <div className="overlay-text top-left">
-                    <div className="lengths-label">Lengths Included</div>
-                    <div className="lengths-value">{lashLength === 'short' ? '8-8-10-10-12-10mm' : lashLength === 'medium' ? '10-10-12-12-14-12mm' : '12-12-14-14-16-14mm'}</div>
-                </div>
-
                 {/* AR Filter Area */}
                 <div className="ar-wrapper">
                     {arMode === 'snap' ? (
@@ -62,12 +54,8 @@ const TryOn = () => {
                     )}
                 </div>
 
-                {/* Mode Switcher - Top Right or integrated nicely */}
+                {/* Mode Switcher - Top Right */}
                 <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 30 }}>
-                    {/* Simplified switcher just for toggle, or we can use the full component below if preferred. 
-                         Let's put the full component momentarily visible or just small toggles? 
-                         Actually, the user might want it more accessible. Let's put it above controls? 
-                         For now, let's keep it simple. */}
                     <button
                         onClick={() => handleModeChange(arMode === 'snap' ? 'mediapipe' : 'snap')}
                         className="glass-pill"
@@ -80,43 +68,11 @@ const TryOn = () => {
                 {/* Floating Controls - Bottom */}
                 <div className="floating-controls">
                     {/* Left: Lash Map (Style Switcher) */}
-                    <div className="control-group left">
+                    <div className="control-group left" style={{ margin: '0 auto' }}>
                         <div className="style-name">{currentLensObj.name}</div>
                         <button className="control-btn glass-circle" onClick={handleLashMapClick}>
                             <span className="icon">👁️</span>
                             <span className="label">Lash Map</span>
-                        </button>
-                    </div>
-
-                    {/* Center: Color */}
-                    <div className="control-group center">
-                        <div className="control-label">Color</div>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            <button
-                                className={`control-btn glass-pill ${lashColor === 'black' ? 'active' : ''}`}
-                                onClick={() => setLashColor('black')}
-                                style={{ minWidth: 'auto', padding: '8px 16px' }}
-                            >
-                                <span className="color-dot black"></span>
-                            </button>
-                            <button
-                                className={`control-btn glass-pill ${lashColor === 'brown' ? 'active' : ''}`}
-                                onClick={() => setLashColor('brown')}
-                                style={{ minWidth: 'auto', padding: '8px 16px' }}
-                            >
-                                <span className="color-dot brown" style={{ background: '#5D4037' }}></span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Right: Length */}
-                    <div className="control-group right">
-                        <div className="control-label">Length</div>
-                        <button
-                            className="control-btn glass-pill"
-                            onClick={() => setLashLength(prev => prev === 'short' ? 'medium' : prev === 'medium' ? 'long' : 'short')}
-                        >
-                            <span>{lashLength === 'short' ? 'S' : lashLength === 'medium' ? 'M' : 'L'}</span>
                         </button>
                     </div>
                 </div>
@@ -129,66 +85,44 @@ const TryOn = () => {
 
             <style>{`
                 .try-on-page {
-                    min-height: 100vh;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
                     background: #000;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 20px;
+                    overflow: hidden;
+                    margin: 0;
+                    padding: 0;
+                    z-index: 1000;
                 }
 
                 .try-on-container {
-                    position: relative;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                     width: 100%;
-                    max-width: 800px;
-                    aspect-ratio: 9/16; /* Mobile portrait aspect ratio preference, or 16/9 if landscape */
-                    /* Use max-height to fit screen */
-                    max-height: 90vh;
-                    margin: 0 auto;
-                    border-radius: 20px;
+                    height: 100%;
+                    margin: 0;
+                    border-radius: 0;
                     overflow: hidden;
-                    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-                }
-
-                @media (min-width: 768px) {
-                    .try-on-container {
-                        aspect-ratio: 16/9; /* Desktop landscape */
-                    }
+                    box-shadow: none;
                 }
 
                 .ar-wrapper {
                     width: 100%;
                     height: 100%;
-                    background: #111; /* Placeholder bg */
-                }
-
-                /* Overlays */
-                .overlay-text {
+                    background: #111;
                     position: absolute;
-                    z-index: 10;
-                    color: rgba(255, 255, 255, 0.9);
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-                    pointer-events: none;
+                    top: 0;
+                    left: 0;
                 }
 
-                .top-left {
-                    top: 20px;
-                    left: 20px;
-                    text-align: left;
-                }
-
-                .lengths-label {
-                    font-size: 0.85rem;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    opacity: 0.8;
-                    margin-bottom: 4px;
-                }
-
-                .lengths-value {
-                    font-size: 1.1rem;
-                    font-weight: 600;
+                .ar-wrapper video,
+                .ar-wrapper canvas {
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover !important;
                 }
 
                 /* Floating Controls */
@@ -199,10 +133,10 @@ const TryOn = () => {
                     right: 0;
                     padding: 20px 30px 40px;
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: center;
                     align-items: flex-end;
                     z-index: 20;
-                    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+                    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
                 }
 
                 .control-group {
@@ -212,15 +146,10 @@ const TryOn = () => {
                     gap: 8px;
                 }
 
-                .control-label, .style-name {
-                    color: white;
-                    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                }
-
                 .style-name {
-                    color: var(--color-gold);
+                    color: #d4af37;
+                    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+                    font-size: 1rem;
                     font-weight: 600;
                     letter-spacing: 0.5px;
                 }
@@ -276,21 +205,6 @@ const TryOn = () => {
                     font-size: 0.9rem;
                 }
 
-                .glass-pill.active {
-                    background: rgba(255, 255, 255, 0.9);
-                    color: black;
-                    border-color: white;
-                }
-
-                .color-dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    border: 1px solid rgba(0,0,0,0.2);
-                }
-
-                .color-dot.black { background: #000; }
-
                 .powered-by {
                     position: absolute;
                     bottom: 10px;
@@ -305,5 +219,3 @@ const TryOn = () => {
 };
 
 export default TryOn;
-
-
