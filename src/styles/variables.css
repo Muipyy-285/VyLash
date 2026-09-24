@@ -1,0 +1,62 @@
+:root {
+  /* Colors - Dreamy Pink Theme */
+  --color-pink-100: #fff0f5;
+  /* Lavender Blush - Very light background */
+  --color-pink-200: #ffe4e1;
+  /* Misty Rose - Soft background accents */
+  --color-pink-300: #ffb6c1;
+  /* Light Pink - Secondary elements */
+  --color-pink-400: #ff69b4;
+  /* Hot Pink - Primary buttons/accents */
+  --color-pink-500: #db7093;
+  /* Deep Pink - Hover states/Text */
+
+  --color-gold: #d4af37;
+  /* Classic Gold - Luxury accents */
+  --color-gold-light: #fceda6;
+  /* Light Gold - Gradients */
+
+  --color-black: #4a4a4a;
+  /* Dark Grey - Softer than black */
+  --color-dark-gray: #808080;
+  --color-white: #ffffff;
+
+  /* Text - High contrast for readability */
+  --text-main: var(--color-black);
+  --text-muted: var(--color-dark-gray);
+  --text-light: var(--color-white);
+
+  /* Global Overrides */
+  /* Soft cloud-like gradient */
+  --bg-body: linear-gradient(135deg, #ffffff 0%, var(--color-pink-100) 50%, var(--color-pink-200) 100%);
+
+  /* Components */
+  --radius-sm: 12px;
+  --radius-md: 24px;
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-blur: 20px;
+
+  /* Soft, dreamy shadows */
+  --shadow-sm: 0 8px 20px -5px rgba(255, 105, 180, 0.15);
+  --shadow-glow: 0 0 25px rgba(255, 105, 180, 0.4);
+
+
+  /* Typography */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 8rem;
+
+  /* Components */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 10px;
+}
