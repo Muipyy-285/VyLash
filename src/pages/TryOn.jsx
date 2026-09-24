@@ -6,19 +6,19 @@ const LENSES = [
     {
         id: 'natural',
         name: 'Natural',
-        lensId: import.meta.env.VITE_SNAP_LENS_NATURAL,
+        lensId: import.meta.env.VITE_SNAP_LENS_NATURAL || 'default-natural-id',
         description: 'Soft, natural lashes'
     },
     {
         id: 'cateye',
         name: 'Cat Eye',
-        lensId: import.meta.env.VITE_SNAP_LENS_CATEYE,
+        lensId: import.meta.env.VITE_SNAP_LENS_CATEYE || 'default-cateye-id',
         description: 'Winged, dramatic look'
     },
     {
         id: 'dramatic',
         name: 'Dramatic',
-        lensId: import.meta.env.VITE_SNAP_LENS_DRAMATIC,
+        lensId: import.meta.env.VITE_SNAP_LENS_DRAMATIC || 'default-dramatic-id',
         description: 'Bold, voluminous lashes'
     }
 ];
@@ -26,7 +26,7 @@ const LENSES = [
 const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
 
-    // UI States
+    // UI States - Default to mediapipe if storage is empty to prevent crashes
     const [arMode, setArMode] = useState(() => localStorage.getItem('vylash_ar_mode') || 'mediapipe');
 
     // Cycle through lenses for "Lash Map" button
@@ -40,6 +40,7 @@ const TryOn = () => {
 
     const handleModeChange = (mode) => {
         setArMode(mode);
+        localStorage.setItem('vylash_ar_mode', mode);
     };
 
     return (
