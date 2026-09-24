@@ -13,21 +13,18 @@ import Feedback from './pages/Feedback';
 function App() {
   return (
     <CartProvider>
-      <Router>
-        <div className="app">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/try-on" element={<TryOn />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/feedback" element={<Feedback />} />
-            </Routes>
-          </main>
-        </div>
+      <Router basename="/VyLash">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/try-on" element={<TryOn />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
       </Router>
     </CartProvider>
   );
