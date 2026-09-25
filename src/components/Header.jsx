@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, Globe } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { cartCount } = useCart();
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,11 +20,11 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'AR Try-On', path: '/try-on' },
-    { name: 'Feedback', path: '/feedback' },
-    { name: 'Contact', path: '/contact' },
+    { name: t.nav.home, path: '/' },
+    { name: t.nav.shop, path: '/shop' },
+    { name: t.nav.tryOn, path: '/try-on' },
+    { name: t.nav.feedback, path: '/feedback' },
+    { name: t.nav.contact, path: '/contact' },
   ];
 
   return (
@@ -34,7 +36,7 @@ const Header = () => {
         <nav className="desktop-nav">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.path}
               to={link.path}
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
             >
@@ -44,6 +46,17 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
+          {/* Language Switcher Button */}
+          <button 
+            className="lang-toggle-btn" 
+            onClick={toggleLanguage}
+            title={language === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
+          >
+            <Globe size={16} />
+            <span className="lang-label">{language === 'th' ? 'EN' : 'TH'}</span>
+            <span className="lang-flag">{language === 'th' ? '🇬🇧' : '🇹🇭'}</span>
+          </button>
+
           <Link to="/cart" className="cart-btn">
             <ShoppingBag size={20} color="var(--color-pink-500)" />
             {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
@@ -59,7 +72,7 @@ const Header = () => {
         <nav className="mobile-nav glass-panel">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.path}
               to={link.path}
               className="mobile-nav-link"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -126,7 +139,35 @@ const Header = () => {
         .header-actions {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.8rem;
+        }
+
+        .lang-toggle-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(244, 63, 94, 0.3);
+          border-radius: 20px;
+          padding: 5px 11px;
+          font-size: 0.82rem;
+          font-weight: 700;
+          color: var(--color-pink-500);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(244, 63, 94, 0.1);
+        }
+
+        .lang-toggle-btn:hover {
+          background: var(--color-pink-500);
+          color: white;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(244, 63, 94, 0.25);
+        }
+
+        .lang-toggle-btn .lang-flag {
+          font-size: 0.95rem;
+          line-height: 1;
         }
         .cart-btn {
           position: relative;

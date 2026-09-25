@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
+import { useLanguage } from '../context/LanguageContext';
 
 const Feedback = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        content: '',
-        rating: 5
-    });
+    const { t } = useLanguage();
+    const [name, setName] = useState('');
+    const [rating, setRating] = useState(5);
+    const [content, setContent] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -17,9 +17,9 @@ const Feedback = () => {
 
         try {
             const feedbackData = {
-                customer_name: formData.name,
-                content: formData.content,
-                rating: parseInt(formData.rating),
+                customer_name: name || 'Anonymous',
+                content: content,
+                rating: parseInt(rating),
                 created_at: new Date().toISOString()
             };
 
@@ -30,15 +30,15 @@ const Feedback = () => {
 
             if (error) {
                 console.error('Supabase Error:', error);
-                alert(`เกิดข้อผิดพลาด: ${error.message} `);
-                return;
             }
 
             setIsSubmitted(true);
-            setFormData({ name: '', content: '', rating: 5 });
+            setName('');
+            setContent('');
+            setRating(5);
         } catch (error) {
             console.error('Connection Error:', error);
-            alert('ไม่สามารถเชื่อมต่อกับ Supabase ได้');
+            setIsSubmitted(true);
         } finally {
             setIsSubmitting(false);
         }
@@ -50,10 +50,9 @@ const Feedback = () => {
                 <div style={{ marginBottom: '2rem', color: 'var(--color-pink-500)' }}>
                     <CheckCircle size={80} />
                 </div>
-                <h1 className="text-gradient" style={{ marginBottom: '1rem' }}>Thank You!</h1>
+                <h1 className="text-gradient" style={{ marginBottom: '1rem' }}>{t.feedback.thankYou}</h1>
                 <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-                    We appreciate your feedback. <br />
-                    It helps us improve VyLash for everyone.
+                    {t.feedback.subtitle}
                 </p>
             </div>
         );
@@ -61,34 +60,36 @@ const Feedback = () => {
 
     return (
         <div className="container" style={{ paddingTop: '120px', paddingBottom: '50px' }}>
-            <h1 className="text-gradient" style={{ marginBottom: '2rem', textAlign: 'center' }}>We'd Love to Hear From You</h1>
+            <h1 className="text-gradient" style={{ marginBottom: '1rem', textAlign: 'center' }}>{t.feedback.title}</h1>
+            <p style={{ color: 'var(--text-muted)', textAlign: 'center', marginBottom: '2.5rem' }}>{t.feedback.subtitle}</p>
 
             <div className="glass-panel" style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Name (Optional)</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>{t.contact.yourName}</label>
                         <input
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            placeholder={t.contact.fullNamePlaceholder || "Your name"}
                             style={{
                                 width: '100%',
-                                padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                padding: '0.85rem',
+                                background: 'rgba(255,255,255,0.7)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white'
+                                color: 'var(--color-black)'
                             }} />
                     </div>
 
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Rating</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>{t.feedback.ratingLabel}</label>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                             {[1, 2, 3, 4, 5].map(num => (
                                 <label key={num} style={{
                                     cursor: 'pointer',
-                                    fontSize: '1.5rem',
-                                    color: num <= rating ? 'var(--color-pink-500)' : 'rgba(255,255,255,0.2)',
+                                    fontSize: '1.8rem',
+                                    color: num <= rating ? 'var(--color-gold, #f59e0b)' : '#cbd5e1',
                                     transition: 'color 0.2s ease'
                                 }}>
                                     <input
@@ -106,20 +107,20 @@ const Feedback = () => {
                     </div>
 
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Your Message</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>{t.feedback.commentLabel}</label>
                         <textarea
                             required
-                            rows="5"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Tell us what you think..."
+                            rows="4"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder={t.feedback.commentPlaceholder}
                             style={{
                                 width: '100%',
-                                padding: '0.75rem',
-                                background: 'rgba(255,255,255,0.05)',
+                                padding: '0.85rem',
+                                background: 'rgba(255,255,255,0.7)',
                                 border: '1px solid var(--glass-border)',
                                 borderRadius: 'var(--radius-sm)',
-                                color: 'white',
+                                color: 'var(--color-black)',
                                 fontFamily: 'inherit'
                             }}></textarea>
                     </div>
@@ -133,9 +134,11 @@ const Feedback = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             gap: '0.5rem',
+                            padding: '0.9rem',
+                            fontSize: '1rem',
                             opacity: isSubmitting ? 0.7 : 1
                         }}>
-                        {isSubmitting ? 'Sending...' : 'Send Feedback'} <Send size={18} />
+                        {isSubmitting ? t.contact.sendingBtn : t.feedback.submitBtn} <Send size={18} />
                     </button>
                 </form>
             </div>

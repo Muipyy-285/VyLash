@@ -1,15 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 const Shop = () => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     return (
         <div className="container" style={{ paddingTop: '100px', paddingBottom: '50px' }}>
             <div className="text-center" style={{ marginBottom: '3rem' }}>
-                <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '1rem' }}>Shop Collections</h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Premium Magnetic Eyelashes for every occasion.</p>
+                <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '1rem' }}>{t.shop.title}</h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>{t.shop.subtitle}</p>
             </div>
 
             <div className="grid" style={{
@@ -50,7 +52,7 @@ const Shop = () => {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--color-pink-500)' }}>฿{product.price}</span>
                                 <button className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-                                    View Details
+                                    {t.shop.viewDetails}
                                 </button>
                             </div>
                         </div>

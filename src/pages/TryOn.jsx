@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ShoppingBag, Check } from 'lucide-react';
+import { Home, ShoppingBag, Check, Globe } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { products } from '../data/products';
 import SnapARFilter from '../components/SnapARFilter';
 
@@ -12,7 +13,6 @@ const LENSES = [
         price: 180,
         productId: 2,
         lensId: import.meta.env.VITE_SNAP_LENS_CATEYE,
-        description: 'Winged, dramatic look (หางตายาวเฉี่ยว)'
     },
     {
         id: 'dramatic',
@@ -20,7 +20,6 @@ const LENSES = [
         price: 190,
         productId: 3,
         lensId: import.meta.env.VITE_SNAP_LENS_DRAMATIC,
-        description: 'Bold, voluminous lashes (หนาพิเศษ)'
     }
 ];
 
@@ -28,8 +27,10 @@ const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
     const [addedToast, setAddedToast] = useState(false);
     const { addToCart, cartCount } = useCart();
+    const { language, toggleLanguage, t } = useLanguage();
 
     const currentLensObj = LENSES.find(l => l.lensId === currentLens) || LENSES[0];
+    const lensStyleInfo = t.tryOn.styles[currentLensObj.id] || { name: currentLensObj.name, desc: '' };
 
     const handleAddToCart = () => {
         const product = products.find(p => p.id === currentLensObj.productId) || {
@@ -48,14 +49,23 @@ const TryOn = () => {
             <div className="try-on-container">
                 {/* Text Overlay - Top Left */}
                 <div className="overlay-text top-left">
-                    <div className="brand-label">VyLash AR</div>
-                    <div className="style-name-badge">{currentLensObj.name} Style</div>
-                    <div className="price-tag-badge">ราคา ฿{currentLensObj.price}</div>
-                    <div className="style-desc">{currentLensObj.description}</div>
+                    <div className="brand-label">{t.tryOn.brand}</div>
+                    <div className="style-name-badge">{lensStyleInfo.name} {t.tryOn.styleSuffix}</div>
+                    <div className="price-tag-badge">฿{currentLensObj.price}</div>
+                    <div className="style-desc">{lensStyleInfo.desc}</div>
                 </div>
 
                 {/* Navigation - Top Right */}
                 <div className="top-nav">
+                    {/* Language Switcher */}
+                    <button 
+                        className="nav-btn glass-circle-sm lang-btn-ar" 
+                        onClick={toggleLanguage}
+                        title={language === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
+                    >
+                        <span style={{ fontSize: '0.82rem', fontWeight: 800 }}>{language === 'th' ? 'EN' : 'TH'}</span>
+                    </button>
+
                     <Link to="/" className="nav-btn glass-circle-sm" title="Home">
                         <Home size={20} />
                     </Link>
@@ -73,32 +83,35 @@ const TryOn = () => {
                 {/* Floating Controls - Bottom Style Selector */}
                 <div className="floating-controls">
                     <div className="style-selector-box">
-                        <div className="selector-title">เลือกแบบขนตา (Select Style)</div>
+                        <div className="selector-title">{t.tryOn.selectStyle}</div>
                         <div className="style-buttons-row">
-                            {LENSES.map((lens) => (
-                                <button
-                                    key={lens.id}
-                                    className={`control-btn style-btn ${currentLens === lens.lensId ? 'active' : ''}`}
-                                    onClick={() => setCurrentLens(lens.lensId)}
-                                >
-                                    <span className="style-icon">👁️</span>
-                                    <div className="style-btn-info">
-                                        <span className="style-label">{lens.name}</span>
-                                        <span className="style-price-chip">฿{lens.price}</span>
-                                    </div>
-                                </button>
-                            ))}
+                            {LENSES.map((lens) => {
+                                const styleInfo = t.tryOn.styles[lens.id] || { name: lens.name };
+                                return (
+                                    <button
+                                        key={lens.id}
+                                        className={`control-btn style-btn ${currentLens === lens.lensId ? 'active' : ''}`}
+                                        onClick={() => setCurrentLens(lens.lensId)}
+                                    >
+                                        <span className="style-icon">👁️</span>
+                                        <div className="style-btn-info">
+                                            <span className="style-label">{styleInfo.name}</span>
+                                            <span className="style-price-chip">฿{lens.price}</span>
+                                        </div>
+                                    </button>
+                                );
+                            })}
                         </div>
 
                         {/* Quick Add to Cart button */}
                         <div className="quick-cart-wrapper">
                             <button className="quick-cart-btn" onClick={handleAddToCart}>
                                 <ShoppingBag size={17} />
-                                <span>สั่งซื้อสไตล์นี้ (฿{currentLensObj.price})</span>
+                                <span>{t.tryOn.orderThisStyle} (฿{currentLensObj.price})</span>
                             </button>
                             {addedToast && (
                                 <div className="added-toast">
-                                    <Check size={16} /> เพิ่มลงในตะกร้าแล้ว!
+                                    <Check size={16} /> {t.tryOn.addedToast}
                                 </div>
                             )}
                         </div>
@@ -106,7 +119,7 @@ const TryOn = () => {
                 </div>
 
                 <div className="powered-by">
-                    <small>Powered by Snap AR</small>
+                    <small>{t.tryOn.poweredBy}</small>
                 </div>
             </div>
 

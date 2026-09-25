@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 
 const Cart = () => {
     const { cartItems, removeFromCart } = useCart();
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
@@ -15,10 +17,10 @@ const Cart = () => {
                 <div style={{ marginBottom: '2rem', color: 'var(--text-muted)' }}>
                     <ShoppingBag size={64} />
                 </div>
-                <h1 className="text-gradient" style={{ marginBottom: '1rem' }}>Your Cart is Empty</h1>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Looks like you haven't added any lashes yet.</p>
+                <h1 className="text-gradient" style={{ marginBottom: '1rem' }}>{t.cart.emptyTitle}</h1>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>{t.cart.emptySubtitle}</p>
                 <Link to="/shop" className="btn-primary">
-                    Start Shopping
+                    {t.cart.startShopping}
                 </Link>
             </div>
         );
@@ -26,7 +28,7 @@ const Cart = () => {
 
     return (
         <div className="container" style={{ paddingTop: '120px', paddingBottom: '50px' }}>
-            <h1 className="text-gradient" style={{ marginBottom: '2rem', textAlign: 'center' }}>Your Shopping Bag</h1>
+            <h1 className="text-gradient" style={{ marginBottom: '2rem', textAlign: 'center' }}>{t.cart.title}</h1>
 
             <div className="cart-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
                 {/* Cart Items List */}
@@ -56,7 +58,7 @@ const Cart = () => {
                             {/* Product Details */}
                             <div style={{ flex: 1 }}>
                                 <h3 style={{ fontSize: '1.1rem', marginBottom: '0.25rem' }}>{item.name}</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{item.style} Style</p>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{item.style} {t.shop.style}</p>
                             </div>
 
                             {/* Price */}
@@ -77,7 +79,7 @@ const Cart = () => {
                                 }}
                                 onMouseEnter={(e) => e.target.style.color = 'var(--color-pink-500)'}
                                 onMouseLeave={(e) => e.target.style.color = 'var(--text-muted)'}
-                                title="Remove item"
+                                title={t.cart.removeItem}
                             >
                                 <Trash2 size={20} />
                             </button>
@@ -88,19 +90,19 @@ const Cart = () => {
                 {/* Order Summary */}
                 <div className="order-summary">
                     <div className="glass-panel" style={{ padding: '2rem', position: 'sticky', top: '100px' }}>
-                        <h3 style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>Order Summary</h3>
+                        <h3 style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>{t.cart.orderSummary}</h3>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                            <span style={{ color: 'var(--text-muted)' }}>Subtotal</span>
+                            <span style={{ color: 'var(--text-muted)' }}>{t.cart.subtotal}</span>
                             <span>฿{totalPrice}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                            <span style={{ color: 'var(--text-muted)' }}>Shipping</span>
-                            <span style={{ color: 'var(--color-pink-500)', fontSize: '0.9rem' }}>Calculated at checkout</span>
+                            <span style={{ color: 'var(--text-muted)' }}>{t.cart.shipping}</span>
+                            <span style={{ color: '#16a34a', fontSize: '0.9rem', fontWeight: 600 }}>{t.cart.freeShipping}</span>
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', paddingTop: '1rem', borderTop: '1px solid var(--glass-border)', fontWeight: 'bold', fontSize: '1.2rem' }}>
-                            <span>Total</span>
+                            <span>{t.cart.total}</span>
                             <span style={{ color: 'var(--color-pink-500)' }}>฿{totalPrice}</span>
                         </div>
 
@@ -117,7 +119,7 @@ const Cart = () => {
                                 position: 'relative'
                             }}
                         >
-                            Checkout <ArrowRight size={18} />
+                            {t.cart.checkoutBtn} <ArrowRight size={18} />
                         </button>
                     </div>
                 </div>

@@ -14,8 +14,10 @@ import {
     ExternalLink
 } from 'lucide-react';
 import paymentConfig from '../utils/paymentConfig';
+import { useLanguage } from '../context/LanguageContext';
 
 const Contact = () => {
+    const { t } = useLanguage();
     const [formData, setFormData] = useState({
         name: '',
         contact: '',
@@ -94,13 +96,13 @@ const Contact = () => {
             {/* Header Title */}
             <div className="contact-header text-center">
                 <div className="section-badge">
-                    <Sparkles size={14} /> GET IN TOUCH
+                    <Sparkles size={14} /> {t.contact.badge}
                 </div>
                 <h1 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '0.8rem' }}>
-                    ติดต่อเรา (Contact Us)
+                    {t.contact.title}
                 </h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto' }}>
-                    มีคำถามเกี่ยวกับขนตาแม่เหล็ก หรือต้องการคำแนะนำปรึกษาเลือกทรงขนตาที่เข้ากับรูปตาคุณมากที่สุด ทักหาเราได้ตลอดเวลาครับ
+                    {t.contact.subtitle}
                 </p>
             </div>
 
@@ -120,7 +122,7 @@ const Contact = () => {
                             </div>
                         </div>
                         <p className="card-desc">
-                            ช่องทางที่สะดวกและตอบไวที่สุด สอบถามข้อมูล ขอคำแนะนำทรงขนตา หรือแจ้งโอนเงินกับแอดมินได้ตลอดเวลา
+                            {t.home.lineDesc}
                         </p>
                         <a 
                             href={paymentConfig.lineOaUrl}
@@ -128,11 +130,11 @@ const Contact = () => {
                             rel="noopener noreferrer"
                             className="btn-channel line-btn"
                         >
-                            <span>แชทผ่าน LINE ทันที</span>
+                            <span>{t.home.lineBtn}</span>
                             <ExternalLink size={16} />
                         </a>
                         <div className="response-time">
-                            <Clock size={13} /> ตอบกลับรวดเร็วภายใน 5 - 15 นาที
+                            <Clock size={13} /> {t.contact.serviceHoursTitle}
                         </div>
                     </div>
 
@@ -148,7 +150,7 @@ const Contact = () => {
                             </div>
                         </div>
                         <p className="card-desc">
-                            ติดตามภาพรีวิวสวยๆ ดูคลิปวิธีติดขนตาแม่เหล็ก และอัปเดตโปรโมชันพิเศษก่อนใครผ่านหน้า IG ของเรา
+                            {t.home.igDesc}
                         </p>
                         <a 
                             href={paymentConfig.instagramUrl}
@@ -156,7 +158,7 @@ const Contact = () => {
                             rel="noopener noreferrer"
                             className="btn-channel ig-btn"
                         >
-                            <span>ติดตาม & ทักแชท DM</span>
+                            <span>{t.home.igBtn}</span>
                             <ExternalLink size={16} />
                         </a>
                     </div>
@@ -166,15 +168,15 @@ const Contact = () => {
                         <div className="info-item">
                             <Clock size={20} color="var(--color-pink-500)" />
                             <div>
-                                <div className="info-title">เวลาให้บริการ (Service Hours)</div>
-                                <div className="info-text">ทุกวัน จันทร์ - อาทิตย์: 09:00 - 22:00 น.</div>
+                                <div className="info-title">{t.contact.serviceHoursTitle}</div>
+                                <div className="info-text">{t.contact.serviceHoursText}</div>
                             </div>
                         </div>
                         <div className="info-item">
                             <Truck size={20} color="#16a34a" />
                             <div>
-                                <div className="info-title">การจัดส่งสินค้า (Fast Shipping)</div>
-                                <div className="info-text">ส่งด่วนฟรีทั่วไทย 1 - 2 วันทำการ</div>
+                                <div className="info-title">{t.contact.fastShippingTitle}</div>
+                                <div className="info-text">{t.contact.fastShippingText}</div>
                             </div>
                         </div>
                     </div>
@@ -188,10 +190,10 @@ const Contact = () => {
                                 <CheckCircle size={68} color="#16a34a" />
                             </div>
                             <h2 className="text-gradient" style={{ fontSize: '1.8rem', marginBottom: '0.8rem' }}>
-                                ส่งข้อความสำเร็จแล้ว!
+                                {t.contact.sentSuccessTitle}
                             </h2>
                             <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-                                ขอบคุณที่ติดต่อ VyLash ข้อความของคุณถูกส่งไปยังทีมงานเรียบร้อยแล้ว แอดมินจะรีบติดต่อกลับตามช่องทางที่คุณแจ้งไว้โดยเร็วที่สุดครับ
+                                {t.contact.sentSuccessDesc}
                             </p>
                             <button 
                                 onClick={() => {
@@ -200,69 +202,69 @@ const Contact = () => {
                                 }}
                                 className="btn-primary"
                             >
-                                ส่งข้อความอื่นเพิ่มเติม
+                                {t.contact.sendBtn}
                             </button>
                         </div>
                     ) : (
                         <>
                             <div className="form-header">
                                 <h3 style={{ fontSize: '1.4rem', marginBottom: '0.4rem' }}>
-                                    ส่งข้อความถึงเรา (Send Us a Message)
+                                    {t.contact.formTitle}
                                 </h3>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                    กรอกข้อมูลด้านล่าง ข้อความจะถูกส่งตรงหาแอดมินทันที
+                                    {t.contact.formSubtitle}
                                 </p>
                             </div>
 
                             <form onSubmit={handleSubmit} className="contact-form">
                                 <div className="form-group">
-                                    <label>ชื่อของคุณ <span style={{ color: '#e11d48' }}>*</span></label>
+                                    <label>{t.contact.yourName} <span style={{ color: '#e11d48' }}>*</span></label>
                                     <input 
                                         type="text" 
                                         name="name" 
                                         value={formData.name} 
                                         onChange={handleInputChange} 
-                                        placeholder="เช่น นภาพร ใจดี" 
+                                        placeholder="Jane Doe / นภาพร" 
                                         required 
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label>เบอร์โทรศัพท์ หรือ LINE ID <span style={{ color: '#e11d48' }}>*</span></label>
+                                    <label>{t.contact.yourContact} <span style={{ color: '#e11d48' }}>*</span></label>
                                     <input 
                                         type="text" 
                                         name="contact" 
                                         value={formData.contact} 
                                         onChange={handleInputChange} 
-                                        placeholder="เช่น 0812345678 หรือ line_id" 
+                                        placeholder="0812345678 / LINE ID" 
                                         required 
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label>หัวข้อที่ต้องการติดต่อ</label>
+                                    <label>{t.contact.topic}</label>
                                     <select 
                                         name="topic" 
                                         value={formData.topic} 
                                         onChange={handleInputChange}
                                         className="form-select"
                                     >
-                                        <option value="ปรึกษาเลือกทรงขนตา">👁️ ปรึกษาเลือกทรงขนตาที่เข้ากับดวงตา</option>
-                                        <option value="สอบถามการจัดส่ง/ติดตามพัสดุ">📦 สอบถามการจัดส่ง / ติดตามพัสดุ</option>
-                                        <option value="แจ้งปัญหาการใช้งาน/เคลมสินค้า">⚠️ แจ้งปัญหาการใช้งาน / เคลมสินค้า</option>
-                                        <option value="สนใจเป็นตัวแทน/สั่งซื้อราคาส่ง">💼 สนใจเป็นตัวแทน / สั่งซื้อราคาส่ง</option>
-                                        <option value="อื่นๆ">💬 เรื่องอื่นๆ</option>
+                                        <option value="ปรึกษาเลือกทรงขนตา">👁️ ปรึกษาเลือกทรงขนตา / Lash Style Advice</option>
+                                        <option value="สอบถามการจัดส่ง/ติดตามพัสดุ">📦 สอบถามการจัดส่ง / Shipping Tracking</option>
+                                        <option value="แจ้งปัญหาการใช้งาน/เคลมสินค้า">⚠️ แจ้งปัญหาการใช้งาน / Claim or Support</option>
+                                        <option value="สนใจเป็นตัวแทน/สั่งซื้อราคาส่ง">💼 สนใจสั่งซื้อราคาส่ง / Wholesale</option>
+                                        <option value="อื่นๆ">💬 เรื่องอื่นๆ / Other</option>
                                     </select>
                                 </div>
 
                                 <div className="form-group">
-                                    <label>ข้อความของคุณ <span style={{ color: '#e11d48' }}>*</span></label>
+                                    <label>{t.contact.yourMessage} <span style={{ color: '#e11d48' }}>*</span></label>
                                     <textarea 
                                         name="message" 
                                         value={formData.message} 
                                         onChange={handleInputChange} 
                                         rows="4" 
-                                        placeholder="พิมพ์คำถามหรือรายละเอียดที่คุณต้องการสอบถาม..." 
+                                        placeholder="..." 
                                         required 
                                     />
                                 </div>
@@ -273,10 +275,10 @@ const Contact = () => {
                                     className="btn-primary submit-btn"
                                 >
                                     {isSubmitting ? (
-                                        'กำลังส่งข้อความ...'
+                                        t.contact.sendingBtn
                                     ) : (
                                         <>
-                                            <span>ส่งข้อความหาแอดมิน</span>
+                                            <span>{t.contact.sendBtn}</span>
                                             <Send size={16} />
                                         </>
                                     )}

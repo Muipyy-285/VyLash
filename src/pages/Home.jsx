@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MessageCircle, Instagram, Sparkles, ExternalLink } from 'lucide-react';
 import { products } from '../data/products';
 import paymentConfig from '../utils/paymentConfig';
+import { useLanguage } from '../context/LanguageContext';
 
 const Home = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -12,19 +15,18 @@ const Home = () => {
         <div className="hero-overlay"></div>
         <div className="container hero-content">
           <h1 className="hero-title">
-            <span className="block" style={{ animationDelay: '0.2s', color: 'var(--color-pink-500)' }}>Redefine Your</span>
-            <span className="text-gradient block" style={{ animationDelay: '0.4s', textShadow: 'none' }}>Gaze</span>
+            <span className="block" style={{ animationDelay: '0.2s', color: 'var(--color-pink-500)' }}>{t.home.heroTitle1}</span>
+            <span className="text-gradient block" style={{ animationDelay: '0.4s', textShadow: 'none' }}>{t.home.heroTitle2}</span>
           </h1>
           <p className="hero-subtitle">
-            Experience the future of beauty with our premium magnetic eyelashes.
-            Try them on instantly with our AR filter.
+            {t.home.heroSubtitle}
           </p>
           <div className="hero-actions">
             <Link to="/try-on" className="btn-primary">
-              Virtual Try-On
+              {t.home.tryOnBtn}
             </Link>
             <Link to="/shop" className="btn-secondary">
-              Shop Collection <ArrowRight size={16} />
+              {t.home.shopBtn} <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -34,8 +36,8 @@ const Home = () => {
       <section className="featured-section" style={{ padding: '5rem 0' }}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: '3rem' }}>
-            <h2 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Featured Collection</h2>
-            <p className="text-muted">Our most popular styles, designed for you.</p>
+            <h2 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t.home.featuredTitle}</h2>
+            <p className="text-muted">{t.home.featuredSubtitle}</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
@@ -63,7 +65,7 @@ const Home = () => {
                 </div>
                 <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{product.name}</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className="text-muted" style={{ textTransform: 'capitalize' }}>{product.style} Style</span>
+                  <span className="text-muted" style={{ textTransform: 'capitalize' }}>{product.style} {t.shop.style}</span>
                   <span style={{ color: 'var(--color-pink-500)', fontWeight: 'bold' }}>฿{product.price}</span>
                 </div>
               </Link>
@@ -78,7 +80,7 @@ const Home = () => {
               borderColor: 'var(--color-pink-500)',
               background: 'rgba(255,255,255,0.5)'
             }}>
-              View All Products <ArrowRight size={16} />
+              {t.home.viewAll} <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -101,13 +103,13 @@ const Home = () => {
               letterSpacing: '1px',
               marginBottom: '0.8rem'
             }}>
-              <Sparkles size={14} /> GET IN TOUCH
+              <Sparkles size={14} /> {t.home.contactBadge}
             </div>
             <h2 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '0.8rem' }}>
-              ติดต่อสอบถาม & ช่องทางติดตาม
+              {t.home.contactTitle}
             </h2>
             <p className="text-muted" style={{ maxWidth: '600px', margin: '0 auto' }}>
-              มีคำถามเกี่ยวกับสินค้า หรือต้องการปรึกษาเลือกทรงขนตา ทักหาเราได้ตลอดเวลาครับ
+              {t.home.contactSubtitle}
             </p>
           </div>
 
@@ -119,12 +121,12 @@ const Home = () => {
                   <MessageCircle size={28} color="#fff" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.2rem' }}>LINE Official</h3>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.2rem' }}>{t.home.lineTitle}</h3>
                   <span className="home-handle">{paymentConfig.lineId}</span>
                 </div>
               </div>
               <p className="home-card-desc">
-                ปรึกษาทรงขนตา สอบถามข้อมูล หรือแจ้งสลิปโอนเงินกับแอดมินโดยตรง ตอบไวภายในไม่กี่นาที
+                {t.home.lineDesc}
               </p>
               <a 
                 href={paymentConfig.lineOaUrl} 
@@ -132,7 +134,7 @@ const Home = () => {
                 rel="noopener noreferrer" 
                 className="btn-channel line-btn"
               >
-                <span>แชทผ่าน LINE OA</span>
+                <span>{t.home.lineBtn}</span>
                 <ExternalLink size={16} />
               </a>
             </div>
@@ -144,12 +146,12 @@ const Home = () => {
                   <Instagram size={28} color="#fff" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.2rem' }}>Instagram</h3>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.2rem' }}>{t.home.igTitle}</h3>
                   <span className="home-handle">{paymentConfig.instagramHandle}</span>
                 </div>
               </div>
               <p className="home-card-desc">
-                ชมภาพรีวิวสวยๆ ดูคลิปวิดีโอสาธิตการใช้งาน และอัปเดตโปรโมชันล่าสุดผ่านทาง IG
+                {t.home.igDesc}
               </p>
               <a 
                 href={paymentConfig.instagramUrl} 
@@ -157,7 +159,7 @@ const Home = () => {
                 rel="noopener noreferrer" 
                 className="btn-channel ig-btn"
               >
-                <span>ติดตาม & ดูรีวิวบน IG</span>
+                <span>{t.home.igBtn}</span>
                 <ExternalLink size={16} />
               </a>
             </div>
@@ -173,7 +175,7 @@ const Home = () => {
               borderColor: 'var(--color-pink-500)',
               color: 'var(--color-pink-500)'
             }}>
-              <span>ดูข้อมูลติดต่อเพิ่มเติม & คำถามที่พบบ่อย (FAQ)</span>
+              <span>{t.home.moreContactBtn}</span>
               <ArrowRight size={16} />
             </Link>
           </div>

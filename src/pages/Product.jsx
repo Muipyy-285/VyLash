@@ -1,28 +1,34 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
+import { Check } from 'lucide-react';
 
 const Product = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart();
+    const { t } = useLanguage();
+    const [toast, setToast] = useState(false);
 
     const product = useMemo(() => {
         return products.find(p => p.id === parseInt(id));
     }, [id]);
 
     const handleAddToCart = () => {
+        if (!product) return;
         addToCart(product);
-        alert(`Added ${product.name} to cart!`);
+        setToast(true);
+        setTimeout(() => setToast(false), 2500);
     };
 
     if (!product) {
         return (
             <div className="container" style={{ paddingTop: '100px', textAlign: 'center' }}>
-                <h1 className="text-gradient">Product Not Found</h1>
+                <h1 className="text-gradient">{t.product.notFound}</h1>
                 <button className="btn-primary" onClick={() => navigate('/shop')} style={{ marginTop: '2rem' }}>
-                    Back to Shop
+                    {t.product.backToShop}
                 </button>
             </div>
         );
@@ -34,10 +40,30 @@ const Product = () => {
                 onClick={() => navigate('/shop')}
                 style={{ background: 'none', border: 'none', color: 'var(--color-black)', marginBottom: '2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 500 }}
             >
-                ← Back to Shop
+                {t.product.backToShop}
             </button>
 
-            <div className="glass-panel" style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1fr', gap: '3rem', alignItems: 'center' }}>
+            <div className="glass-panel" style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1fr', gap: '3rem', alignItems: 'center', position: 'relative' }}>
+                {toast && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '20px',
+                        right: '20px',
+                        background: '#16a34a',
+                        color: 'white',
+                        padding: '8px 18px',
+                        borderRadius: '20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontWeight: 600,
+                        boxShadow: '0 4px 15px rgba(22, 163, 74, 0.35)',
+                        zIndex: 10
+                    }}>
+                        <Check size={18} /> {t.product.addedToCart}
+                    </div>
+                )}
+
                 {/* Image Section */}
                 <div style={{
                     background: 'linear-gradient(to bottom, #fff0f5, #fff)',
@@ -63,7 +89,7 @@ const Product = () => {
                     </p>
 
                     <div style={{ marginBottom: '2rem' }}>
-                        <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Style Profile:</h4>
+                        <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>{t.product.styleProfile}</h4>
                         <span style={{
                             background: 'rgba(255, 182, 193, 0.2)',
                             padding: '0.5rem 1rem',
@@ -71,13 +97,13 @@ const Product = () => {
                             fontSize: '0.9rem',
                             textTransform: 'capitalize'
                         }}>
-                            {product.style} Look
+                            {product.style} {t.product.look}
                         </span>
                     </div>
 
                     <div style={{ display: 'flex', gap: '1.5rem' }}>
                         <button className="btn-primary" style={{ flex: 1, textAlign: 'center' }} onClick={handleAddToCart}>
-                            Add to Cart
+                            {t.product.addToCart}
                         </button>
                         <button
                             className="glass-panel"
@@ -92,7 +118,7 @@ const Product = () => {
                             onClick={() => navigate('/try-on', { state: { style: product.style } })}
                         >
                             <span role="img" aria-label="camera" style={{ marginRight: '0.5rem' }}>📸</span>
-                            Virtual Try-On
+                            {t.product.virtualTryOn}
                         </button>
                     </div>
                 </div>
