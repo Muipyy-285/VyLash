@@ -1,5 +1,5 @@
 // Google Analytics 4 (GA4) Utility for VyLash
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-KNZ6KBCG48';
 
 /**
  * Initialize Google Analytics 4
