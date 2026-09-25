@@ -120,11 +120,15 @@ const TryOn = () => {
 
             <style>{`
                 .try-on-page {
+                    position: fixed;
+                    inset: 0;
                     height: 100vh;
+                    height: 100dvh;
                     width: 100vw;
                     background: #000;
                     display: flex;
                     overflow: hidden;
+                    z-index: 100;
                 }
 
                 .try-on-container {
@@ -136,9 +140,11 @@ const TryOn = () => {
                 }
 
                 .ar-wrapper {
+                    position: absolute;
+                    inset: 0;
                     width: 100%;
                     height: 100%;
-                    background: #111;
+                    background: #000;
                 }
 
                 /* Overlays */

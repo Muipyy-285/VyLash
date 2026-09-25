@@ -9,6 +9,7 @@ import TryOn from './pages/TryOn';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Feedback from './pages/Feedback';
+import Contact from './pages/Contact';
 
 const AppContent = () => {
   const location = useLocation();
@@ -27,6 +28,7 @@ const AppContent = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
     </div>

@@ -40,17 +40,17 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 if (!mounted) return;
                 cameraKitRef.current = cameraKit;
 
-                // 2. Initialize canvas dimensions
-                if (canvasRef.current) {
-                    const container = canvasRef.current.parentElement;
-                    if (container) {
-                        canvasRef.current.width = container.clientWidth || 800;
-                        canvasRef.current.height = container.clientHeight || 450;
-                    } else {
-                        canvasRef.current.width = 800;
-                        canvasRef.current.height = 450;
-                    }
-                }
+                // 2. Initialize canvas dimensions to fill full screen
+                const updateCanvasDimensions = () => {
+                    if (!canvasRef.current) return { width: 800, height: 600 };
+                    const w = window.innerWidth || document.documentElement.clientWidth || 800;
+                    const h = window.innerHeight || document.documentElement.clientHeight || 600;
+                    canvasRef.current.width = w;
+                    canvasRef.current.height = h;
+                    return { width: w, height: h };
+                };
+
+                const initialDims = updateCanvasDimensions();
 
                 // 3. Create AR Session
                 const session = await cameraKit.createSession({
@@ -60,12 +60,13 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 if (!mounted) return;
                 sessionRef.current = session;
 
-                // 4. Get camera access
+                // 4. Get camera access with portrait/landscape awareness
+                const isPortrait = window.innerHeight > window.innerWidth;
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'user',
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
+                        width: { ideal: isPortrait ? 1080 : 1920 },
+                        height: { ideal: isPortrait ? 1920 : 1080 }
                     }
                 });
 
@@ -81,11 +82,22 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
 
                 await session.setSource(source);
 
-                // 6. Start rendering
-                const renderWidth = canvasRef.current.width || 800;
-                const renderHeight = canvasRef.current.height || 450;
-                await source.setRenderSize(renderWidth, renderHeight);
+                // 6. Start rendering with exact full screen dimensions
+                await source.setRenderSize(initialDims.width, initialDims.height);
                 await session.play();
+
+                // Handle window resize dynamically
+                const handleResize = async () => {
+                    if (!sessionRef.current || !source || !canvasRef.current) return;
+                    const newDims = updateCanvasDimensions();
+                    try {
+                        await source.setRenderSize(newDims.width, newDims.height);
+                    } catch (e) {
+                        console.warn('Resize render size update failed:', e);
+                    }
+                };
+
+                window.addEventListener('resize', handleResize);
 
                 // 7. Load and apply initial lens
                 if (lensId) {
@@ -223,11 +235,21 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
 
             <style>{`
                 .ar-container {
-                    position: relative;
+                    position: absolute;
+                    inset: 0;
                     width: 100%;
                     height: 100%;
                     background: #000;
                     overflow: hidden;
+                }
+
+                .snap-ar-canvas {
+                    position: absolute;
+                    inset: 0;
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover;
+                    transform: scaleX(-1); /* Mirror for selfie view */
                 }
 
                 .loading-overlay,
@@ -296,10 +318,6 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                     border-radius: 4px;
                     font-family: monospace;
                     color: var(--color-gold);
-                }
-
-                .snap-ar-canvas {
-                    transform: scaleX(-1); /* Mirror for selfie view */
                 }
 
                 .debug-info {

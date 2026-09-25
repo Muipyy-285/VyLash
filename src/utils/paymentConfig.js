@@ -14,8 +14,12 @@ export const paymentConfig = {
     bankAccountName: import.meta.env.VITE_BANK_ACCOUNT_NAME || 'VyLash Official',
 
     // LINE Official Account / Support Contact
-    lineOaUrl: import.meta.env.VITE_LINE_OA_URL || 'https://line.me/R/ti/p/@vylash',
-    lineId: import.meta.env.VITE_LINE_ID || '@vylash',
+    lineOaUrl: import.meta.env.VITE_LINE_OA_URL || 'https://line.me/R/ti/p/@974xmrmn',
+    lineId: import.meta.env.VITE_LINE_ID || '@974xmrmn',
+
+    // Instagram Contact
+    instagramUrl: import.meta.env.VITE_INSTAGRAM_URL || 'https://www.instagram.com/vylash.official?stkn=MnVvYWl4cmNtc3Y4',
+    instagramHandle: import.meta.env.VITE_INSTAGRAM_HANDLE || '@vylash.official',
 
     // Order reference prefix
     orderPrefix: 'VY',
