@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { initGA, trackPageView } from './utils/analytics';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -16,6 +17,16 @@ const AppContent = () => {
   const location = useLocation();
   const hideHeaderOn = ['/try-on'];
   const shouldHideHeader = hideHeaderOn.includes(location.pathname);
+
+  // Initialize Google Analytics on mount
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  // Track page view on route change
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location.pathname]);
 
   return (
     <div className="app">
