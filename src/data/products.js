@@ -1,18 +1,8 @@
 
-import lashNatural from '../assets/lash_natural_new.png';
 import lashCatEye from '../assets/lash_cateye_new.png';
 import lashDramatic from '../assets/lash_dramatic_new.png';
 
 export const products = [
-    {
-        id: 1,
-        name: "Natural Wispy",
-        price: 350,
-        cost: 114.84,
-        style: "natural",
-        image: lashNatural, // In a real app, this would be a product photo
-        description: "Perfect for everyday wear. These magnetic lashes add subtle volume and length for a natural enhancement."
-    },
     {
         id: 2,
         name: "Cat Eye Glam",

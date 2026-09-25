@@ -7,14 +7,6 @@ import SnapARFilter from '../components/SnapARFilter';
 
 const LENSES = [
     {
-        id: 'natural',
-        name: 'Natural',
-        price: 350,
-        productId: 1,
-        lensId: import.meta.env.VITE_SNAP_LENS_NATURAL,
-        description: 'Soft, natural lashes (พรีเมียม)'
-    },
-    {
         id: 'cateye',
         name: 'Cat Eye',
         price: 180,
