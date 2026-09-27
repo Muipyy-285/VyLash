@@ -6,12 +6,12 @@
 export const paymentConfig = {
     // PromptPay Configuration
     promptPayId: import.meta.env.VITE_PROMPTPAY_ID || '0923464011',
-    promptPayName: import.meta.env.VITE_PROMPTPAY_NAME || 'รุ่งฤดี แซ่เฮอ (VyLash)',
+    promptPayName: import.meta.env.VITE_PROMPTPAY_NAME || 'รุ่งฤดี แซ่เหอ (VyLash)',
 
     // Bank Account Transfer Configuration
     bankName: import.meta.env.VITE_BANK_NAME || 'พร้อมเพย์ / PromptPay',
     bankAccountNo: import.meta.env.VITE_BANK_ACCOUNT_NO || '092-346-4011',
-    bankAccountName: import.meta.env.VITE_BANK_ACCOUNT_NAME || 'รุ่งฤดี แซ่เฮอ',
+    bankAccountName: import.meta.env.VITE_BANK_ACCOUNT_NAME || 'รุ่งฤดี แซ่เหอ',
 
     // LINE Official Account / Support Contact
     lineOaUrl: import.meta.env.VITE_LINE_OA_URL || 'https://line.me/R/ti/p/@974xmrmn',
