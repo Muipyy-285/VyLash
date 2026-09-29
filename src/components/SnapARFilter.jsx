@@ -60,13 +60,13 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 if (!mounted) return;
                 sessionRef.current = session;
 
-                // 4. Get camera access with portrait/landscape awareness
-                const isPortrait = window.innerHeight > window.innerWidth;
+                // 4. Get camera access — use mobile-friendly resolution to avoid zoom
+                const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'user',
-                        width: { ideal: isPortrait ? 1080 : 1920 },
-                        height: { ideal: isPortrait ? 1920 : 1080 }
+                        width: { ideal: isMobile ? 720 : 1280 },
+                        height: { ideal: isMobile ? 1280 : 720 }
                     }
                 });
 
@@ -82,16 +82,21 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
 
                 await session.setSource(source);
 
-                // 6. Start rendering with exact full screen dimensions
-                await source.setRenderSize(initialDims.width, initialDims.height);
+                // 6. Use actual camera track dimensions for render size to prevent zoom
+                const videoTrack = mediaStream.getVideoTracks()[0];
+                const trackSettings = videoTrack ? videoTrack.getSettings() : {};
+                const renderW = trackSettings.width || initialDims.width;
+                const renderH = trackSettings.height || initialDims.height;
+                await source.setRenderSize(renderW, renderH);
                 await session.play();
 
-                // Handle window resize dynamically
+                // Handle window resize dynamically — canvas size updates, render size stays with camera track
                 const handleResize = async () => {
                     if (!sessionRef.current || !source || !canvasRef.current) return;
-                    const newDims = updateCanvasDimensions();
+                    updateCanvasDimensions();
                     try {
-                        await source.setRenderSize(newDims.width, newDims.height);
+                        // Keep render size matching actual camera output to avoid zoom
+                        await source.setRenderSize(renderW, renderH);
                     } catch (e) {
                         console.warn('Resize render size update failed:', e);
                     }
