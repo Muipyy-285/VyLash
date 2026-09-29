@@ -9,7 +9,7 @@ import snapConfig from '../utils/snapConfig';
  * Uses Snap's Lens Studio lenses for eyelash try-on.
  * Supports real-time lens switching.
  */
-const SnapARFilter = ({ lensId, showDebug = false }) => {
+const SnapARFilter = ({ lensId, fitMode = 'contain', showDebug = false }) => {
     const canvasRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -40,19 +40,7 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 if (!mounted) return;
                 cameraKitRef.current = cameraKit;
 
-                // 2. Initialize canvas dimensions to fill full screen
-                const updateCanvasDimensions = () => {
-                    if (!canvasRef.current) return { width: 800, height: 600 };
-                    const w = window.innerWidth || document.documentElement.clientWidth || 800;
-                    const h = window.innerHeight || document.documentElement.clientHeight || 600;
-                    canvasRef.current.width = w;
-                    canvasRef.current.height = h;
-                    return { width: w, height: h };
-                };
-
-                const initialDims = updateCanvasDimensions();
-
-                // 3. Create AR Session
+                // 2. Create AR Session with the canvas as liveRenderTarget
                 const session = await cameraKit.createSession({
                     liveRenderTarget: canvasRef.current
                 });
@@ -60,14 +48,14 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 if (!mounted) return;
                 sessionRef.current = session;
 
-                // 4. Get camera access — use mobile-friendly resolution to avoid zoom
-                const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+                // 3. Get camera access — standard resolution so mobile sensor does not crop to 4:3
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'user',
-                        width: { ideal: isMobile ? 720 : 1280 },
-                        height: { ideal: isMobile ? 1280 : 720 }
-                    }
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false
                 });
 
                 if (!mounted) {
@@ -75,34 +63,28 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                     return;
                 }
 
-                // 5. Attach video source
+                // If mobile device has ultra-wide/min zoom capability (e.g. 0.5x), apply minimum zoom
+                const videoTrack = mediaStream.getVideoTracks()[0];
+                if (videoTrack && videoTrack.getCapabilities) {
+                    try {
+                        const caps = videoTrack.getCapabilities();
+                        if (caps.zoom && typeof caps.zoom.min === 'number' && caps.zoom.min < 1) {
+                            await videoTrack.applyConstraints({
+                                advanced: [{ zoom: caps.zoom.min }]
+                            });
+                        }
+                    } catch (e) {
+                        console.warn('Could not apply min zoom constraint:', e);
+                    }
+                }
+
+                // 4. Attach video source (use 'user' cameraType; do not override setRenderSize so Camera Kit automatic mobile compensation remains active)
                 const source = createMediaStreamSource(mediaStream, {
-                    cameraType: 'front'
+                    cameraType: 'user'
                 });
 
                 await session.setSource(source);
-
-                // 6. Use actual camera track dimensions for render size to prevent zoom
-                const videoTrack = mediaStream.getVideoTracks()[0];
-                const trackSettings = videoTrack ? videoTrack.getSettings() : {};
-                const renderW = trackSettings.width || initialDims.width;
-                const renderH = trackSettings.height || initialDims.height;
-                await source.setRenderSize(renderW, renderH);
                 await session.play();
-
-                // Handle window resize dynamically — canvas size updates, render size stays with camera track
-                const handleResize = async () => {
-                    if (!sessionRef.current || !source || !canvasRef.current) return;
-                    updateCanvasDimensions();
-                    try {
-                        // Keep render size matching actual camera output to avoid zoom
-                        await source.setRenderSize(renderW, renderH);
-                    } catch (e) {
-                        console.warn('Resize render size update failed:', e);
-                    }
-                };
-
-                window.addEventListener('resize', handleResize);
 
                 // 7. Load and apply initial lens
                 if (lensId) {
@@ -223,7 +205,7 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                 style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover',
+                    objectFit: fitMode,
                     display: error ? 'none' : 'block',
                     opacity: isArReady ? 1 : 0.5,
                     transition: 'opacity 0.3s ease'
@@ -253,7 +235,7 @@ const SnapARFilter = ({ lensId, showDebug = false }) => {
                     inset: 0;
                     width: 100% !important;
                     height: 100% !important;
-                    object-fit: cover;
+                    object-fit: contain;
                     transform: scaleX(-1); /* Mirror for selfie view */
                 }
 

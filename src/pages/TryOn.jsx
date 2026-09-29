@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ShoppingBag, Check, Globe } from 'lucide-react';
+import { Home, ShoppingBag, Check, Globe, Maximize2, Minimize2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { products } from '../data/products';
@@ -25,6 +25,7 @@ const LENSES = [
 
 const TryOn = () => {
     const [currentLens, setCurrentLens] = useState(LENSES[0].lensId);
+    const [fitMode, setFitMode] = useState('contain'); // 'contain' = normal 1x no zoom, 'cover' = full screen
     const [addedToast, setAddedToast] = useState(false);
     const { addToCart, cartCount } = useCart();
     const { language, toggleLanguage, t } = useLanguage();
@@ -57,6 +58,17 @@ const TryOn = () => {
 
                 {/* Navigation - Top Right */}
                 <div className="top-nav">
+                    {/* Fit / Fullscreen Toggle */}
+                    <button 
+                        className="nav-btn glass-circle-sm" 
+                        onClick={() => setFitMode(prev => prev === 'contain' ? 'cover' : 'contain')}
+                        title={fitMode === 'contain' 
+                            ? (language === 'th' ? 'เปลี่ยนเป็นเต็มจอ' : 'Switch to Fullscreen') 
+                            : (language === 'th' ? 'ปรับพอดีจอ (ไม่ซูม)' : 'Fit Screen (No Zoom)')}
+                    >
+                        {fitMode === 'contain' ? <Maximize2 size={18} /> : <Minimize2 size={18} />}
+                    </button>
+
                     {/* Language Switcher */}
                     <button 
                         className="nav-btn glass-circle-sm lang-btn-ar" 
@@ -77,7 +89,7 @@ const TryOn = () => {
 
                 {/* AR Filter Area */}
                 <div className="ar-wrapper">
-                    <SnapARFilter lensId={currentLens} />
+                    <SnapARFilter lensId={currentLens} fitMode={fitMode} />
                 </div>
 
                 {/* Floating Controls - Bottom Style Selector */}
