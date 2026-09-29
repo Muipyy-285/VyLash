@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { useLanguage } from '../context/LanguageContext';
+import paymentConfig from '../utils/paymentConfig';
+import { trackEvent } from '../utils/analytics';
 
 const Feedback = () => {
     const { t } = useLanguage();
@@ -15,15 +17,15 @@ const Feedback = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        try {
-            const feedbackData = {
-                customer_name: name || 'Anonymous',
-                content: content,
-                rating: parseInt(rating),
-                created_at: new Date().toISOString()
-            };
+        const feedbackData = {
+            customer_name: name || 'Anonymous',
+            content: content,
+            rating: parseInt(rating),
+            created_at: new Date().toISOString()
+        };
 
-            // Insert into Supabase 'feedback' table
+        try {
+            // 1. Insert into Supabase 'feedback' table
             const { error } = await supabase
                 .from('feedback')
                 .insert([feedbackData]);
@@ -31,6 +33,33 @@ const Feedback = () => {
             if (error) {
                 console.error('Supabase Error:', error);
             }
+
+            // 2. Dispatch to Automated Webhook (Google Sheets / LINE Notify)
+            const webhookUrl = paymentConfig.orderWebhookUrl;
+            if (webhookUrl) {
+                try {
+                    await fetch(webhookUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            type: 'feedback',
+                            customer_name: feedbackData.customer_name,
+                            rating: feedbackData.rating,
+                            content: feedbackData.content,
+                            createdAt: feedbackData.created_at
+                        })
+                    });
+                } catch (webhookErr) {
+                    console.warn('Webhook dispatch skipped:', webhookErr);
+                }
+            }
+
+            // 3. Track event in Google Analytics 4 (GA4) for statistics
+            trackEvent('feedback_submitted', {
+                rating: feedbackData.rating,
+                has_name: !!name
+            });
 
             setIsSubmitted(true);
             setName('');
