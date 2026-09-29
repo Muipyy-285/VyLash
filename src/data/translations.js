@@ -1,4 +1,4 @@
-﻿export const translations = {
+export const translations = {
   th: {
     nav: {
       home: 'หน้าแรก',
@@ -34,6 +34,8 @@
       title: 'คอลเลกชันขนตาแม่เหล็ก',
       subtitle: 'ขนตาแม่เหล็กคุณภาพพรีเมียม ตอบโจทย์ทุกลุคทุกโอกาส',
       viewDetails: 'ดูรายละเอียด',
+      addToCart: 'เพิ่มลงตะกร้า',
+      addedToast: 'เพิ่มสินค้าลงในตะกร้าแล้ว!',
       style: 'ทรง',
       currency: '฿'
     },
@@ -181,6 +183,8 @@
       title: 'Shop Collections',
       subtitle: 'Premium Magnetic Eyelashes for every occasion and style.',
       viewDetails: 'View Details',
+      addToCart: 'Add to Cart',
+      addedToast: 'Added to cart successfully!',
       style: 'Style',
       currency: '฿'
     },
